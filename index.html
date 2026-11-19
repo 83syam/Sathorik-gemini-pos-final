@@ -1,0 +1,1559 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SATHORIK - Black-Gold Luxury Warung & POS System Pro</title>
+    <!-- Menonaktifkan console warning Tailwind CDN -->
+    <script>
+        (function() {
+            const origWarn = console.warn;
+            console.warn = function(msg) {
+                if (typeof msg === 'string' && msg.includes('cdn.tailwindcss.com should not be used in production')) return;
+                if (origWarn) origWarn.apply(console, arguments);
+            };
+        })();
+    </script>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        if (typeof tailwind !== 'undefined') {
+            tailwind.config = {
+                theme: {
+                    extend: {
+                        colors: {
+                            emeraldBrand: '#059669',
+                            goldBrand: '#d4af37',
+                            dangerBrand: '#DC2626',
+                            neutralBg: '#060608'
+                        }
+                    }
+                }
+            };
+        }
+    </script>
+    <!-- FontAwesome & Google Fonts -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --theme-primary: #d4af37;
+            --theme-secondary: #f6e27a;
+            --theme-dark-gold: #8a6d1c;
+            --theme-glow: rgba(212, 175, 55, 0.45);
+            --theme-bg-card: rgba(12, 12, 16, 0.85);
+            --theme-border: rgba(212, 175, 55, 0.35);
+            --theme-border-strong: rgba(246, 226, 122, 0.55);
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #050507;
+            background-image: 
+                radial-gradient(circle at 15% 10%, rgba(212, 175, 55, 0.14) 0%, transparent 40%),
+                radial-gradient(circle at 85% 85%, rgba(212, 175, 55, 0.10) 0%, transparent 45%),
+                linear-gradient(180deg, #09090d 0%, #040406 100%);
+            background-attachment: fixed;
+            color: #f4f4f5;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: #09090d; }
+        ::-webkit-scrollbar-thumb { background: linear-gradient(180deg, var(--theme-primary), var(--theme-dark-gold)); border-radius: 10px; }
+
+        .logo-3d-artistic {
+            font-family: 'Cinzel', serif;
+            font-weight: 900;
+            background: linear-gradient(135deg, #fff8d6 0%, var(--theme-secondary) 28%, var(--theme-primary) 60%, #7a5c12 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            filter: drop-shadow(0 3px 5px rgba(0, 0, 0, 0.9)) drop-shadow(0 0 14px var(--theme-glow));
+            letter-spacing: 2px;
+        }
+
+        .gold-crown-badge {
+            background: linear-gradient(145deg, #fff3b0 0%, var(--theme-primary) 45%, #6e520d 100%);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.8), 0 0 18px var(--theme-glow), inset 0 1px 2px rgba(255,255,255,0.75);
+            border: 1px solid rgba(255, 243, 176, 0.6);
+        }
+
+        .luxury-header-glass {
+            background: linear-gradient(180deg, rgba(10, 10, 14, 0.96) 0%, rgba(20, 17, 10, 0.92) 100%);
+            backdrop-filter: blur(22px);
+            -webkit-backdrop-filter: blur(22px);
+            border-bottom: 1px solid var(--theme-border-strong);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.85), 0 2px 24px var(--theme-glow);
+        }
+
+        .glass-card {
+            background: linear-gradient(145deg, rgba(18, 18, 24, 0.88) 0%, rgba(10, 10, 13, 0.94) 100%);
+            backdrop-filter: blur(18px);
+            -webkit-backdrop-filter: blur(18px);
+            border: 1px solid var(--theme-border);
+            box-shadow: 0 14px 36px rgba(0, 0, 0, 0.75), inset 0 1px 0 rgba(255, 235, 160, 0.12);
+        }
+
+        .glass-subcard {
+            background: linear-gradient(160deg, rgba(14, 14, 18, 0.9) 0%, rgba(7, 7, 10, 0.96) 100%);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            border: 1px solid var(--theme-border);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.65), inset 0 1px 0 rgba(212, 175, 55, 0.12);
+            transition: all 0.3s ease;
+        }
+        .glass-subcard:hover {
+            border-color: var(--theme-border-strong);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8), 0 0 18px var(--theme-glow);
+        }
+
+        .luxury-input {
+            background: rgba(6, 6, 9, 0.88);
+            border: 1px solid var(--theme-border);
+            color: #fafafa;
+            backdrop-filter: blur(8px);
+            transition: all 0.25s ease;
+        }
+        .luxury-input:focus {
+            outline: none;
+            border-color: var(--theme-primary);
+            box-shadow: 0 0 0 2px var(--theme-glow);
+        }
+
+        .btn-artistic-primary {
+            background: linear-gradient(135deg, #f3dc7a 0%, var(--theme-primary) 50%, #99761d 100%);
+            color: #08080a;
+            font-weight: 800;
+            box-shadow: 0 4px 18px var(--theme-glow), inset 0 1px 1px rgba(255,255,255,0.65);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 1px solid rgba(255, 243, 176, 0.45);
+        }
+        .btn-artistic-primary:hover { filter: brightness(1.08); box-shadow: 0 6px 26px var(--theme-glow); transform: translateY(-1.5px); }
+        .btn-artistic-primary:active { transform: translateY(1px); }
+
+        .btn-artistic-emerald {
+            background: linear-gradient(135deg, #10b981 0%, #059669 55%, #065f46 100%);
+            color: #ffffff;
+            font-weight: 700;
+            box-shadow: 0 4px 16px rgba(16, 185, 129, 0.35), inset 0 1px 1px rgba(255,255,255,0.3);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 1px solid rgba(110, 231, 183, 0.35);
+        }
+        .btn-artistic-emerald:hover { filter: brightness(1.08); box-shadow: 0 6px 24px rgba(16, 185, 129, 0.55); transform: translateY(-1.5px); }
+
+        .btn-artistic-dark {
+            background: linear-gradient(145deg, rgba(28, 28, 35, 0.9) 0%, rgba(14, 14, 18, 0.95) 100%);
+            color: #f4f4f5;
+            font-weight: 600;
+            box-shadow: 0 4px 14px rgba(0, 0, 0, 0.65), inset 0 1px 0 rgba(255,255,255,0.08);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 1px solid var(--theme-border);
+        }
+        .btn-artistic-dark:hover {
+            background: linear-gradient(145deg, rgba(40, 36, 24, 0.95) 0%, rgba(20, 18, 12, 0.98) 100%);
+            box-shadow: 0 6px 20px var(--theme-glow);
+            border-color: var(--theme-primary);
+            color: #fff6cc;
+            transform: translateY(-1.5px);
+        }
+
+        .luxury-table thead tr {
+            background: linear-gradient(90deg, rgba(212, 175, 55, 0.14) 0%, rgba(212, 175, 55, 0.05) 100%);
+            border-bottom: 1px solid var(--theme-border-strong);
+        }
+        .luxury-table tbody tr {
+            border-bottom: 1px solid rgba(212, 175, 55, 0.14);
+            transition: background-color 0.2s ease;
+        }
+        .luxury-table tbody tr:hover { background-color: rgba(212, 175, 55, 0.07); }
+
+        @media print {
+            body * { visibility: hidden; }
+            #areaCetakStruk, #areaCetakStruk * { visibility: visible; }
+            #areaCetakStruk {
+                position: absolute; left: 0; top: 0; width: 58mm;
+                background: #ffffff !important; color: #000000 !important;
+                font-family: 'Courier New', Courier, monospace;
+                font-size: 12px; padding: 5px; display: block !important;
+            }
+        }
+    </style>
+</head>
+<body class="flex flex-col min-h-screen">
+
+    <!-- HEADER VERTIKAL MOBILE & BLACK-GOLD LUXURY GLASSMORPHISM -->
+    <header class="luxury-header-glass sticky top-0 z-50 transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-4 py-3.5 flex flex-col items-center gap-3">
+            
+            <!-- Baris 1 Header Vertikal Mobile: Logo 3D SATHORIK & Status -->
+            <div class="w-full flex items-center justify-between">
+                <div class="flex items-center space-x-3">
+                    <div class="w-12 h-12 rounded-2xl gold-crown-badge flex items-center justify-center relative shrink-0">
+                        <i class="fa-solid fa-crown text-gray-950 text-xl filter drop-shadow"></i>
+                        <div class="absolute inset-0 rounded-2xl bg-yellow-300 opacity-20 animate-pulse"></div>
+                    </div>
+                    <div>
+                        <div class="flex items-center gap-2 flex-wrap">
+                            <h1 class="logo-3d-artistic text-2xl sm:text-3xl tracking-wider leading-none">SATHORIK</h1>
+                            <span id="badgeLisensi" class="bg-yellow-500/15 text-yellow-300 text-[10px] font-extrabold px-2.5 py-0.5 rounded-full border border-yellow-400/50 shadow-sm">Portal 3 Role</span>
+                        </div>
+                        <p class="text-[10px] uppercase tracking-[0.2em] text-yellow-400/90 font-bold mt-1">Black-Gold Luxury POS System Pro</p>
+                    </div>
+                </div>
+
+                <div class="flex items-center gap-2">
+                    <button type="button" id="btnLogoutHeader" onclick="window.logoutAplikasi()" class="hidden btn-artistic-dark text-xs px-3 py-2 rounded-xl flex items-center gap-1.5 border-red-500/40 text-red-300">
+                        <i class="fa-solid fa-right-from-bracket"></i>
+                        <span>Keluar</span>
+                    </button>
+                    <button type="button" onclick="window.toggleWarnaBox()" class="btn-artistic-dark text-xs px-3 py-2 rounded-xl flex items-center gap-1.5 shrink-0">
+                        <i class="fa-solid fa-palette text-yellow-400"></i>
+                        <span class="hidden sm:inline">Tema</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Baris 2 Header Vertikal Mobile: Panel Pilihan Warna Tema -->
+            <div id="warnaBox" class="hidden w-full flex items-center justify-between sm:justify-center gap-2 bg-black/60 px-3.5 py-2 rounded-xl border border-yellow-500/35 backdrop-blur-md">
+                <span class="text-xs text-yellow-300 font-semibold"><i class="fa-solid fa-wand-magic-sparkles mr-1"></i> Palet Luxury:</span>
+                <div class="flex items-center gap-2.5">
+                    <button type="button" onclick="window.changeTheme('#d4af37', 'rgba(212, 175, 55, 0.45)')" class="w-5 h-5 rounded-full bg-yellow-500 border border-white hover:scale-125 transition shadow"></button>
+                    <button type="button" onclick="window.changeTheme('#3b82f6', 'rgba(59, 130, 246, 0.45)')" class="w-5 h-5 rounded-full bg-blue-500 border border-white hover:scale-125 transition shadow"></button>
+                    <button type="button" onclick="window.changeTheme('#10b981', 'rgba(16, 185, 129, 0.45)')" class="w-5 h-5 rounded-full bg-emerald-500 border border-white hover:scale-125 transition shadow"></button>
+                    <button type="button" onclick="window.changeTheme('#ec4899', 'rgba(236, 72, 153, 0.45)')" class="w-5 h-5 rounded-full bg-pink-500 border border-white hover:scale-125 transition shadow"></button>
+                    <button type="button" onclick="window.changeTheme('#f97316', 'rgba(249, 115, 22, 0.45)')" class="w-5 h-5 rounded-full bg-orange-500 border border-white hover:scale-125 transition shadow"></button>
+                </div>
+            </div>
+
+            <!-- Baris 3 Header Vertikal Mobile: Navigasi Pemisah 3 Bagian (Creator - Pedagang - Pembeli) -->
+            <nav class="grid grid-cols-2 sm:grid-cols-4 gap-2 w-full pt-1 border-t border-yellow-500/20">
+                <button type="button" onclick="window.switchRoleView('portal')" id="nav-portal" class="w-full px-3 py-2.5 rounded-xl text-xs font-bold btn-artistic-primary transition flex items-center justify-center gap-1.5">
+                    <i class="fa-solid fa-shield-halved"></i> <span>1. Portal Login</span>
+                </button>
+                <button type="button" onclick="window.switchRoleView('creator')" id="nav-creator" class="w-full px-3 py-2.5 rounded-xl text-xs font-semibold btn-artistic-dark transition flex items-center justify-center gap-1.5">
+                    <i class="fa-solid fa-crown text-yellow-400"></i> <span>2. Creator</span>
+                </button>
+                <button type="button" onclick="window.switchRoleView('pedagang')" id="nav-pedagang" class="w-full px-3 py-2.5 rounded-xl text-xs font-semibold btn-artistic-dark transition flex items-center justify-center gap-1.5">
+                    <i class="fa-solid fa-cash-register text-emerald-400"></i> <span>3. Pedagang</span>
+                </button>
+                <button type="button" onclick="window.switchRoleView('pembeli')" id="nav-pembeli" class="w-full px-3 py-2.5 rounded-xl text-xs font-semibold btn-artistic-dark transition flex items-center justify-center gap-1.5">
+                    <i class="fa-solid fa-cart-shopping text-amber-300"></i> <span>4. Pembeli</span>
+                </button>
+            </nav>
+        </div>
+    </header>
+
+    <!-- KONTEN UTAMA APLIKASI -->
+    <main class="flex-grow max-w-7xl w-full mx-auto p-4 md:p-6 space-y-6">
+
+        <!-- ===================================================================== -->
+        <!-- LAYAR UTAMA: PORTAL LOGIN 3 BAGIAN (CREATOR - PEDAGANG - PEMBELI)     -->
+        <!-- ===================================================================== -->
+        <section id="view-portal" class="space-y-6">
+            <div class="glass-card rounded-3xl p-6 md:p-8 relative overflow-hidden">
+                <div class="absolute -right-12 -top-12 w-72 h-72 bg-yellow-500/15 rounded-full blur-3xl pointer-events-none"></div>
+                <div class="relative z-10 text-center max-w-2xl mx-auto">
+                    <span class="bg-yellow-500/15 text-yellow-300 text-[11px] font-extrabold px-3.5 py-1 rounded-full uppercase tracking-wider border border-yellow-400/40">
+                        Sistem Terpisah 3 Peran Pengguna
+                    </span>
+                    <h2 class="text-2xl md:text-4xl font-extrabold mt-4 mb-2 text-transparent bg-clip-text bg-gradient-to-r from-white via-yellow-100 to-yellow-400">
+                        Portal Akses SATHORIK POS
+                    </h2>
+                    <p class="text-gray-300 text-xs md:text-sm leading-relaxed">
+                        Silakan masuk sesuai peran Anda. Pedagang dan Pembeli wajib memasukkan <strong>Kode Akses Acak</strong> atau membuka <strong>Tautan Undangan</strong> yang dibuat oleh Creator.
+                    </p>
+                </div>
+
+                <!-- 3 KARTU LOGIN TERPISAH -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-5 mt-7">
+                    
+                    <!-- 1. LOGIN CREATOR -->
+                    <div class="glass-subcard rounded-2xl p-5 flex flex-col justify-between space-y-4 border-yellow-500/40">
+                        <div>
+                            <div class="flex items-center justify-between">
+                                <span class="text-xs font-extrabold uppercase tracking-wider text-yellow-400">
+                                    <i class="fa-solid fa-crown mr-1"></i> 1. Pembuat (Creator)
+                                </span>
+                                <span class="text-[10px] bg-yellow-500/20 text-yellow-300 px-2 py-0.5 rounded-full border border-yellow-500/30">Master</span>
+                            </div>
+                            <p class="text-xs text-gray-300 mt-2.5 leading-relaxed">
+                                Buat <strong>Kode Akses Acak</strong> &amp; <strong>Tautan Undangan</strong> untuk pemesan aplikasi (Pedagang &amp; Pembeli), kelola lisensi, dan pantau aktivasi.
+                            </p>
+                        </div>
+                        <div class="space-y-2.5 pt-2 border-t border-yellow-500/15">
+                            <label class="block text-[11px] text-gray-400">PIN Master Creator (Default: 123456)</label>
+                            <input type="password" id="inputPinCreator" placeholder="Masukkan PIN Creator..." class="w-full luxury-input rounded-xl px-3.5 py-2.5 text-xs">
+                            <button type="button" onclick="window.prosesLoginCreator()" class="w-full btn-artistic-primary py-3 rounded-xl text-xs">
+                                <i class="fa-solid fa-key mr-1.5"></i> Masuk Ruang Creator
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- 2. LOGIN PEDAGANG -->
+                    <div class="glass-subcard rounded-2xl p-5 flex flex-col justify-between space-y-4 border-emerald-500/40">
+                        <div>
+                            <div class="flex items-center justify-between">
+                                <span class="text-xs font-extrabold uppercase tracking-wider text-emerald-400">
+                                    <i class="fa-solid fa-shop mr-1"></i> 2. Pedagang / Kasir
+                                </span>
+                                <span class="text-[10px] bg-emerald-500/20 text-emerald-300 px-2 py-0.5 rounded-full border border-emerald-500/30">Toko / POS</span>
+                            </div>
+                            <p class="text-xs text-gray-300 mt-2.5 leading-relaxed">
+                                Kelola Kasir POS (Satuan Terkecil, Eceran &amp; Glosiran), cetak struk thermal, tambah barang manual ke stok, catat hutang &amp; buku kas.
+                            </p>
+                        </div>
+                        <div class="space-y-2.5 pt-2 border-t border-emerald-500/15">
+                            <label class="block text-[11px] text-gray-400">Kode Akses Pedagang (Coba: <span class="text-emerald-300 font-mono">PDG-8899</span>)</label>
+                            <input type="text" id="inputKodePedagang" placeholder="Masukkan Kode dari Creator..." class="w-full luxury-input rounded-xl px-3.5 py-2.5 text-xs uppercase font-mono">
+                            <button type="button" onclick="window.prosesLoginPedagang()" class="w-full btn-artistic-emerald py-3 rounded-xl text-xs">
+                                <i class="fa-solid fa-cash-register mr-1.5"></i> Masuk Ruang Pedagang
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- 3. LOGIN PEMBELI -->
+                    <div class="glass-subcard rounded-2xl p-5 flex flex-col justify-between space-y-4 border-amber-500/40">
+                        <div>
+                            <div class="flex items-center justify-between">
+                                <span class="text-xs font-extrabold uppercase tracking-wider text-amber-300">
+                                    <i class="fa-solid fa-users mr-1"></i> 3. Pembeli / Customer
+                                </span>
+                                <span class="text-[10px] bg-amber-500/20 text-amber-200 px-2 py-0.5 rounded-full border border-amber-500/30">Belanja</span>
+                            </div>
+                            <p class="text-xs text-gray-300 mt-2.5 leading-relaxed">
+                                Cek harga Satuan Terkecil, Eceran &amp; Glosiran per kategori barang secara transparan dan kirim order langsung ke Pedagang.
+                            </p>
+                        </div>
+                        <div class="space-y-2.5 pt-2 border-t border-amber-500/15">
+                            <label class="block text-[11px] text-gray-400">Kode Akses Pembeli (Coba: <span class="text-amber-300 font-mono">CST-1122</span>)</label>
+                            <input type="text" id="inputKodePembeli" placeholder="Masukkan Kode dari Creator..." class="w-full luxury-input rounded-xl px-3.5 py-2.5 text-xs uppercase font-mono">
+                            <button type="button" onclick="window.prosesLoginPembeli()" class="w-full btn-artistic-dark py-3 rounded-xl text-xs border-amber-400/50">
+                                <i class="fa-solid fa-cart-shopping mr-1.5 text-amber-300"></i> Masuk Ruang Pembeli
+                            </button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- ===================================================================== -->
+        <!-- BAGIAN 1: RUANG CREATOR (GENERATOR KODE ACAK & TAUTAN UNDANGAN)        -->
+        <!-- ===================================================================== -->
+        <section id="view-creator" class="hidden space-y-6">
+            <div class="glass-card rounded-3xl p-6 md:p-8 space-y-6">
+                <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 border-b border-yellow-500/25 pb-4">
+                    <div>
+                        <span class="text-[10px] font-extrabold uppercase tracking-widest text-yellow-400">Dashboard Master Pembuat</span>
+                        <h2 class="text-xl md:text-2xl font-extrabold text-white flex items-center gap-2 mt-1">
+                            <i class="fa-solid fa-crown text-yellow-400"></i> Generator Kode Acak &amp; Tautan Akses
+                        </h2>
+                        <p class="text-xs text-gray-400 mt-1">Buat kode akses acak unik beserta tautan otomatis untuk dikirim ke pemesan (Pedagang atau Customer).</p>
+                    </div>
+                    <button type="button" onclick="window.logoutAplikasi()" class="btn-artistic-dark px-4 py-2 rounded-xl text-xs text-red-300 border-red-500/40">
+                        <i class="fa-solid fa-lock mr-1.5"></i> Kunci Ruang Creator
+                    </button>
+                </div>
+
+                <!-- Form Generator Kode Acak -->
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    <div class="glass-subcard rounded-2xl p-5 space-y-4">
+                        <h3 class="text-sm font-extrabold text-yellow-300 uppercase tracking-wider">
+                            <i class="fa-solid fa-wand-magic-sparkles mr-1.5"></i> Buat Kode &amp; Tautan Baru
+                        </h3>
+                        
+                        <div>
+                            <label class="block text-xs text-gray-300 font-semibold mb-1">Nama Pemesan / Nama Warung / Customer</label>
+                            <input type="text" id="genNamaPemesan" placeholder="Contoh: Warung Bu Siti / Budi Customer" class="w-full luxury-input rounded-xl px-4 py-2.5 text-xs">
+                        </div>
+
+                        <div class="grid grid-cols-2 gap-3">
+                            <div>
+                                <label class="block text-xs text-gray-300 font-semibold mb-1">Tipe Akses Pemesan</label>
+                                <select id="genRolePemesan" class="w-full luxury-input rounded-xl px-3 py-2.5 text-xs">
+                                    <option value="pedagang">Pedagang (Akses Kasir POS)</option>
+                                    <option value="pembeli">Pembeli / Customer (Katalog)</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-xs text-gray-300 font-semibold mb-1">Masa Aktif Lisensi</label>
+                                <select id="genMasaAktif" class="w-full luxury-input rounded-xl px-3 py-2.5 text-xs">
+                                    <option value="Trial 7 Hari">Trial 7 Hari</option>
+                                    <option value="1 Bulan Pro">1 Bulan Pro</option>
+                                    <option value="1 Tahun VIP">1 Tahun VIP</option>
+                                    <option value="Unlimited Permanen">Unlimited Permanen</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <button type="button" onclick="window.generateKodeDanTautan()" class="w-full btn-artistic-primary py-3.5 rounded-xl text-xs">
+                            <i class="fa-solid fa-shuffle mr-1.5"></i> Generate Kode Acak &amp; Tautan Otomatis
+                        </button>
+                    </div>
+
+                    <!-- Hasil Kode Acak & Tautan Siap Kirim -->
+                    <div class="glass-subcard rounded-2xl p-5 flex flex-col justify-between space-y-4 border-yellow-400/50">
+                        <div>
+                            <h3 class="text-sm font-extrabold text-emerald-400 uppercase tracking-wider mb-3">
+                                <i class="fa-solid fa-link mr-1.5"></i> Hasil Kode &amp; Tautan Siap Kirim
+                            </h3>
+                            <div id="boxHasilGenerate" class="bg-black/70 border border-yellow-500/30 rounded-xl p-4 space-y-3">
+                                <p class="text-xs text-gray-400 italic">Klik tombol "Generate Kode Acak" di samping untuk membuat kode dan tautan undangan.</p>
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-2 gap-2.5 pt-2">
+                            <button type="button" onclick="window.salinTautanAkses()" class="btn-artistic-dark py-2.5 rounded-xl text-xs flex items-center justify-center gap-1.5">
+                                <i class="fa-solid fa-copy text-yellow-400"></i> Salin Pesan &amp; Link
+                            </button>
+                            <button type="button" onclick="window.kirimKeWhatsApp()" class="btn-artistic-emerald py-2.5 rounded-xl text-xs flex items-center justify-center gap-1.5">
+                                <i class="fa-brands fa-whatsapp text-sm"></i> Kirim via WhatsApp
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Daftar Kode Pemesan yang Sudah Dibuat -->
+                <div class="glass-subcard rounded-2xl p-5">
+                    <div class="flex justify-between items-center mb-3">
+                        <h3 class="text-sm font-extrabold text-yellow-300 uppercase tracking-wider">
+                            <i class="fa-solid fa-list-check mr-1.5"></i> Daftar Kode Akses Aktif (Pemesan)
+                        </h3>
+                        <span class="text-[11px] text-gray-400">Tersimpan otomatis di perangkat</span>
+                    </div>
+                    <div class="overflow-x-auto rounded-xl border border-yellow-500/20">
+                        <table class="w-full text-left border-collapse luxury-table">
+                            <thead>
+                                <tr class="text-yellow-300 text-xs uppercase">
+                                    <th class="py-3 px-3">Kode Acak</th>
+                                    <th class="py-3 px-3">Nama Pemesan</th>
+                                    <th class="py-3 px-3">Role</th>
+                                    <th class="py-3 px-3">Masa Aktif</th>
+                                    <th class="py-3 px-3">Aksi Cepat</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tabelKodeCreator" class="text-xs"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===================================================================== -->
+        <!-- BAGIAN 2: RUANG PEDAGANG (KASIR POS 3 LEVEL HARGA, STOK, BUKU KAS)    -->
+        <!-- ===================================================================== -->
+        <section id="view-pedagang" class="hidden space-y-6">
+            
+            <!-- Banner Status Pedagang & Switcher 3 Level Harga Warung -->
+            <div class="glass-card rounded-3xl p-5 md:p-6">
+                <div class="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4">
+                    <div>
+                        <div class="flex flex-wrap items-center gap-2">
+                            <span class="bg-emerald-500/20 text-emerald-300 text-[10px] font-extrabold px-2.5 py-0.5 rounded-full border border-emerald-500/40">RUANG PEDAGANG AKTIF</span>
+                            <span id="infoNamaWarungPedagang" class="text-xs text-yellow-300 font-bold">Warung Berkah Sathorik</span>
+                        </div>
+                        <h2 class="text-xl md:text-2xl font-extrabold text-white mt-1.5">Kasir POS, Stok Barang Lengkap &amp; Buku Kas</h2>
+                    </div>
+
+                    <!-- Switcher Mode Satuan Terkecil vs Eceran vs Glosiran -->
+                    <div class="grid grid-cols-3 gap-1.5 bg-black/70 p-1.5 rounded-2xl border border-yellow-500/35 w-full lg:w-auto">
+                        <button type="button" id="posBtnTerkecil" onclick="window.setModeWarung('terkecil')" class="px-3 py-2 rounded-xl text-[11px] sm:text-xs btn-artistic-dark transition flex items-center justify-center">
+                            <i class="fa-solid fa-coins mr-1 text-amber-300"></i> Satuan Terkecil
+                        </button>
+                        <button type="button" id="posBtnEceran" onclick="window.setModeWarung('eceran')" class="px-3 py-2 rounded-xl text-[11px] sm:text-xs btn-artistic-primary transition flex items-center justify-center">
+                            <i class="fa-solid fa-bag-shopping mr-1"></i> Eceran
+                        </button>
+                        <button type="button" id="posBtnGlosiran" onclick="window.setModeWarung('glosiran')" class="px-3 py-2 rounded-xl text-[11px] sm:text-xs btn-artistic-dark transition flex items-center justify-center">
+                            <i class="fa-solid fa-boxes-packing mr-1 text-emerald-400"></i> Glosiran
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Sub-Navigasi Internal Pedagang -->
+                <div class="grid grid-cols-3 gap-2 mt-5 pt-4 border-t border-yellow-500/20">
+                    <button type="button" onclick="window.switchPedagangSubTab('kasir')" id="subnav-kasir" class="py-2.5 px-3 rounded-xl text-xs font-bold btn-artistic-primary">
+                        <i class="fa-solid fa-cash-register mr-1"></i> Kasir POS
+                    </button>
+                    <button type="button" onclick="window.switchPedagangSubTab('stok')" id="subnav-stok" class="py-2.5 px-3 rounded-xl text-xs font-semibold btn-artistic-dark">
+                        <i class="fa-solid fa-boxes-stacked mr-1 text-yellow-400"></i> Keranjang Stok (<span id="badgeJumlahItem">36</span>)
+                    </button>
+                    <button type="button" onclick="window.switchPedagangSubTab('kas')" id="subnav-kas" class="py-2.5 px-3 rounded-xl text-xs font-semibold btn-artistic-dark">
+                        <i class="fa-solid fa-wallet mr-1 text-emerald-400"></i> Buku Kas
+                    </button>
+                </div>
+            </div>
+
+            <!-- SUB-TAB PEDAGANG 1: KASIR POS -->
+            <div id="pedagang-sub-kasir" class="glass-card rounded-3xl p-5 md:p-7">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    <!-- Input Transaksi -->
+                    <div class="glass-subcard rounded-2xl p-5 space-y-4">
+                        <div class="flex flex-wrap justify-between items-center gap-2">
+                            <span id="labelModeKasir" class="text-[11px] font-extrabold uppercase tracking-wider px-3 py-1 rounded-full bg-yellow-500/15 text-yellow-300 border border-yellow-400/40">
+                                Aktif: Satuan Terkecil (Ketengan / Sachet / Butir / 1/4 Kg)
+                            </span>
+                            <button type="button" onclick="window.scanBarcodeSimulasi()" class="btn-artistic-dark text-xs px-3 py-1.5 rounded-xl flex items-center gap-1.5">
+                                <i class="fa-solid fa-camera text-yellow-400"></i> Scan Barcode
+                            </button>
+                        </div>
+
+                        <!-- Filter Kategori Cepat di Kasir -->
+                        <div>
+                            <label class="block text-xs text-yellow-200/90 font-bold mb-1.5">Filter Kategori Barang</label>
+                            <select id="posFilterKategori" onchange="window.updateDropdownPOS()" class="w-full luxury-input rounded-xl px-4 py-2.5 text-xs">
+                                <option value="SEMUA">Semua Kategori Barang</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <label class="block text-xs text-yellow-200/90 font-bold mb-1.5">Pilih Produk Sembako / Warung</label>
+                            <select id="posProduk" class="w-full luxury-input rounded-xl px-4 py-3 text-sm"></select>
+                        </div>
+                        <div>
+                            <label class="block text-xs text-yellow-200/90 font-bold mb-1.5">Jumlah Beli / Qty</label>
+                            <input type="number" id="posQty" value="1" min="1" class="w-full luxury-input rounded-xl px-4 py-3 text-sm">
+                        </div>
+                        <button type="button" onclick="window.tambahKeKeranjang()" class="w-full btn-artistic-primary py-3.5 rounded-xl text-sm">
+                            <i class="fa-solid fa-cart-plus mr-2"></i> Masukkan Keranjang Belanja
+                        </button>
+                    </div>
+
+                    <!-- Ringkasan Keranjang & Cetak Struk -->
+                    <div class="glass-subcard rounded-2xl p-5 flex flex-col justify-between">
+                        <div>
+                            <div class="flex justify-between items-center mb-3 border-b border-yellow-500/20 pb-2">
+                                <h4 class="text-sm font-extrabold text-yellow-400 uppercase tracking-wider"><i class="fa-solid fa-receipt mr-1.5"></i> Ringkasan Nota Belanja</h4>
+                                <button type="button" onclick="window.kosongkanKeranjang()" class="text-[11px] text-red-400 hover:text-red-300 font-semibold">Kosongkan</button>
+                            </div>
+                            <div id="listKeranjang" class="space-y-2 text-sm text-gray-300 max-h-48 overflow-y-auto mb-4 pr-1">
+                                <p class="text-gray-500 italic text-xs">Belum ada item di keranjang.</p>
+                            </div>
+                        </div>
+                        <div class="border-t border-yellow-500/25 pt-3 space-y-2.5">
+                            <div class="flex justify-between items-center text-base font-extrabold text-white mb-2">
+                                <span class="text-gray-300">Total Tagihan:</span>
+                                <span id="totalTagihan" class="text-xl text-yellow-400">Rp 0</span>
+                            </div>
+                            <div class="grid grid-cols-2 gap-2.5">
+                                <button type="button" onclick="window.prosesBayar('Tunai')" class="btn-artistic-emerald py-3 rounded-xl text-xs">
+                                    <i class="fa-solid fa-money-bill-wave mr-1"></i> Tunai (Lunas)
+                                </button>
+                                <button type="button" onclick="window.prosesBayar('Hutang')" class="btn-artistic-primary py-3 rounded-xl text-xs">
+                                    <i class="fa-solid fa-book mr-1"></i> Catat Hutang
+                                </button>
+                            </div>
+                            <button type="button" onclick="window.cetakStrukBelanja()" class="w-full btn-artistic-dark py-3 rounded-xl text-xs flex items-center justify-center gap-2 mt-2">
+                                <i class="fa-solid fa-print text-yellow-400"></i> Cetak Struk Thermal / Simpan PDF
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SUB-TAB PEDAGANG 2: KERANJANG STOK BARANG & PENAMBAHAN MANUAL LENGKAP -->
+            <div id="pedagang-sub-stok" class="hidden glass-card rounded-3xl p-5 md:p-7 space-y-5">
+                <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 border-b border-yellow-500/25 pb-4">
+                    <div>
+                        <h3 class="text-lg font-extrabold text-yellow-300">Keranjang Stok Barang &amp; Katalog Harga Pasaran</h3>
+                        <p class="text-xs text-gray-400 mt-1">Dilengkapi database item lengkap per kategori (Sembako, Snack, Obat-obatan, Minuman, Bumbu Dapur, Dan Lainnya) dengan satuan &amp; harga terkecil.</p>
+                    </div>
+                    <div class="flex flex-wrap gap-2 w-full md:w-auto">
+                        <button type="button" onclick="window.toggleFormTambahProduk()" class="w-full sm:w-auto btn-artistic-primary px-4 py-2.5 rounded-xl text-xs">
+                            <i class="fa-solid fa-plus-circle mr-1.5"></i> + Tambah Barang/Harga Manual
+                        </button>
+                        <button type="button" onclick="window.resetStokDefault()" class="w-full sm:w-auto btn-artistic-dark px-3.5 py-2.5 rounded-xl text-xs">
+                            <i class="fa-solid fa-rotate-left mr-1 text-yellow-400"></i> Reset Katalog
+                        </button>
+                    </div>
+                </div>
+
+                <!-- FORM PENAMBAHAN BARANG/HARGA PER ITEM SECARA MANUAL KE KERANJANG STOK -->
+                <div id="formTambahProdukBox" class="hidden glass-subcard rounded-2xl p-5 space-y-4 border-yellow-400/60">
+                    <div class="flex justify-between items-center border-b border-yellow-500/20 pb-2">
+                        <h4 class="text-sm font-extrabold text-yellow-300"><i class="fa-solid fa-box-open mr-1.5"></i> Input Barang &amp; Harga Baru (Otomatis Kategori: Dan Lainnya)</h4>
+                        <button type="button" onclick="window.toggleFormTambahProduk()" class="text-xs text-gray-400 hover:text-white">Tutup</button>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+                        <div>
+                            <label class="block text-[11px] text-gray-300 font-semibold mb-1">Nama Barang / Item *</label>
+                            <input type="text" id="newProdNama" placeholder="Contoh: Sabun Cuci Piring / Korek Gas" class="w-full luxury-input rounded-xl px-3 py-2 text-xs">
+                        </div>
+                        <div>
+                            <label class="block text-[11px] text-gray-300 font-semibold mb-1">Kategori Item (Default: Dan Lainnya)</label>
+                            <select id="newProdKategori" class="w-full luxury-input rounded-xl px-3 py-2 text-xs">
+                                <option value="Dan Lainnya" selected>Dan Lainnya (Otomatis Barang Manual)</option>
+                                <option value="Sembako">Sembako</option>
+                                <option value="Makanan Ringan (Snack)">Makanan Ringan (Snack)</option>
+                                <option value="Obat-obatan">Obat-obatan</option>
+                                <option value="Minuman">Minuman</option>
+                                <option value="Bumbu Dapur">Bumbu Dapur</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-[11px] text-gray-300 font-semibold mb-1">Jumlah Stok Masuk *</label>
+                            <input type="number" id="newProdStok" value="20" min="1" placeholder="Jumlah stok..." class="w-full luxury-input rounded-xl px-3 py-2 text-xs">
+                        </div>
+                    </div>
+
+                    <!-- Pengaturan 3 Tingkatan Satuan & Harga -->
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-3 pt-1">
+                        <!-- Satuan Terkecil (Wajib Utama) -->
+                        <div class="bg-black/60 p-3 rounded-xl border border-amber-500/45 space-y-2">
+                            <span class="text-[11px] font-bold text-amber-300 block"><i class="fa-solid fa-coins mr-1"></i> 1. Satuan &amp; Harga Terkecil *</span>
+                            <input type="text" id="newProdSatuanTerkecil" placeholder="Satuan (mis: 1 Pcs / 1 Sachet / 1 Butir)" class="w-full luxury-input rounded-lg px-2.5 py-1.5 text-xs">
+                            <input type="number" id="newProdHargaTerkecil" placeholder="Harga Terkecil (Rp) *" class="w-full luxury-input rounded-lg px-2.5 py-1.5 text-xs">
+                        </div>
+
+                        <!-- Satuan Eceran -->
+                        <div class="bg-black/60 p-3 rounded-xl border border-yellow-500/30 space-y-2">
+                            <span class="text-[11px] font-bold text-yellow-400 block"><i class="fa-solid fa-bag-shopping mr-1"></i> 2. Satuan Eceran (Opsional)</span>
+                            <input type="text" id="newProdSatuanEcer" placeholder="Satuan (mis: 1 Renceng / 1 Bungkus)" class="w-full luxury-input rounded-lg px-2.5 py-1.5 text-xs">
+                            <input type="number" id="newProdHargaEcer" placeholder="Harga Eceran (Rp)" class="w-full luxury-input rounded-lg px-2.5 py-1.5 text-xs">
+                        </div>
+
+                        <!-- Satuan Glosiran -->
+                        <div class="bg-black/60 p-3 rounded-xl border border-emerald-500/30 space-y-2">
+                            <span class="text-[11px] font-bold text-emerald-400 block"><i class="fa-solid fa-boxes-packing mr-1"></i> 3. Satuan Glosiran (Opsional)</span>
+                            <input type="text" id="newProdSatuanGrosir" placeholder="Satuan (mis: 1 Dus / 1 Pak / 1 Lusin)" class="w-full luxury-input rounded-lg px-2.5 py-1.5 text-xs">
+                            <input type="number" id="newProdHargaGrosir" placeholder="Harga Glosiran (Rp)" class="w-full luxury-input rounded-lg px-2.5 py-1.5 text-xs">
+                        </div>
+                    </div>
+
+                    <div class="flex flex-col sm:flex-row justify-between items-center gap-3 pt-2 border-t border-yellow-500/15">
+                        <div class="w-full sm:w-64">
+                            <input type="number" id="newProdLabaEcer" placeholder="Estimasi Laba per Satuan Terkecil (Rp)" class="w-full luxury-input rounded-xl px-3 py-2 text-xs">
+                        </div>
+                        <div class="flex gap-2 w-full sm:w-auto justify-end">
+                            <button type="button" onclick="window.toggleFormTambahProduk()" class="btn-artistic-dark px-4 py-2.5 rounded-xl text-xs">Batal</button>
+                            <button type="button" onclick="window.simpanProdukBaru()" class="btn-artistic-emerald px-5 py-2.5 rounded-xl text-xs">
+                                <i class="fa-solid fa-check mr-1"></i> Simpan ke Keranjang Stok
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Filter Kategori & Pencarian Stok -->
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                    <input type="text" id="cariStokPedagangInput" onkeyup="window.renderTabelStokPedagang()" placeholder="Cari nama item barang..." class="luxury-input rounded-xl px-4 py-2.5 text-xs">
+                    <select id="filterKategoriStok" onchange="window.renderTabelStokPedagang()" class="luxury-input rounded-xl px-4 py-2.5 text-xs">
+                        <option value="SEMUA">Semua Kategori Item</option>
+                    </select>
+                    <select id="filterStatusStok" onchange="window.renderTabelStokPedagang()" class="luxury-input rounded-xl px-4 py-2.5 text-xs">
+                        <option value="SEMUA">Semua Status Stok</option>
+                        <option value="MENIPIS">Stok Menipis / Habis (&lt;= 5)</option>
+                    </select>
+                </div>
+
+                <!-- Tabel Keranjang Stok Lengkap -->
+                <div class="overflow-x-auto rounded-2xl border border-yellow-500/20 bg-black/40">
+                    <table class="w-full text-left border-collapse luxury-table">
+                        <thead>
+                            <tr class="text-yellow-300 text-[11px] uppercase">
+                                <th class="py-3.5 px-3">Item &amp; Kategori</th>
+                                <th class="py-3.5 px-3">Satuan &amp; Harga Terkecil</th>
+                                <th class="py-3.5 px-3">Harga Eceran</th>
+                                <th class="py-3.5 px-3">Harga Glosiran</th>
+                                <th class="py-3.5 px-3">Stok</th>
+                                <th class="py-3.5 px-3">Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tabelStokPedagang" class="text-xs"></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- SUB-TAB PEDAGANG 3: BUKU KAS -->
+            <div id="pedagang-sub-kas" class="hidden glass-card rounded-3xl p-5 md:p-7 space-y-5">
+                <h3 class="text-lg font-extrabold text-yellow-300">Rekap Buku Kas &amp; Profit Harian</h3>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div class="glass-subcard p-5 rounded-2xl">
+                        <p class="text-xs text-gray-400 font-semibold">Total Omzet Tunai</p>
+                        <h4 class="text-2xl font-extrabold text-emerald-400 mt-1.5" id="rekapOmzet">Rp 850.000</h4>
+                    </div>
+                    <div class="glass-subcard p-5 rounded-2xl border-yellow-400/40">
+                        <p class="text-xs text-gray-400 font-semibold">Total Laba Bersih</p>
+                        <h4 class="text-2xl font-extrabold text-yellow-400 mt-1.5" id="rekapLaba">Rp 175.000</h4>
+                    </div>
+                    <div class="glass-subcard p-5 rounded-2xl border-purple-500/35">
+                        <p class="text-xs text-gray-400 font-semibold">Total Hutang Pelanggan</p>
+                        <h4 class="text-2xl font-extrabold text-purple-400 mt-1.5" id="rekapHutang">Rp 150.000</h4>
+                    </div>
+                </div>
+                <div class="glass-subcard rounded-2xl p-4">
+                    <h4 class="text-xs font-extrabold text-yellow-300 uppercase tracking-wider mb-3">Log Transaksi Terbaru</h4>
+                    <div id="logTransaksiList" class="space-y-2 text-xs text-gray-400 max-h-52 overflow-y-auto">
+                        <p class="italic">Belum ada transaksi baru pada sesi ini.</p>
+                    </div>
+                </div>
+            </div>
+
+        </section>
+
+        <!-- ===================================================================== -->
+        <!-- BAGIAN 3: RUANG PEMBELI / CUSTOMER (KATALOG 3 LEVEL HARGA & KATEGORI) -->
+        <!-- ===================================================================== -->
+        <section id="view-pembeli" class="hidden space-y-6">
+            <div class="glass-card rounded-3xl p-5 md:p-7 space-y-6">
+                <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 border-b border-yellow-500/25 pb-4">
+                    <div>
+                        <span class="bg-amber-500/20 text-amber-300 text-[10px] font-extrabold px-2.5 py-0.5 rounded-full border border-amber-500/40">KATALOG PELANGGAN / CUSTOMER</span>
+                        <h2 class="text-xl md:text-2xl font-extrabold text-white mt-1.5">Daftar Harga Terkecil, Eceran &amp; Glosiran</h2>
+                        <p class="text-xs text-gray-400 mt-1">Pilih produk berdasarkan kategori, bandingkan harga satuan terkecil, eceran, hingga glosiran, lalu kirim pesanan ke Pedagang.</p>
+                    </div>
+                    <div class="flex flex-col sm:flex-row gap-2 w-full md:w-auto">
+                        <select id="filterKategoriPembeli" onchange="window.renderKatalogPembeli()" class="luxury-input rounded-xl px-3 py-2.5 text-xs">
+                            <option value="SEMUA">Semua Kategori</option>
+                        </select>
+                        <input type="text" id="cariProdukPembeli" onkeyup="window.renderKatalogPembeli()" placeholder="Cari barang..." class="luxury-input rounded-xl px-4 py-2.5 text-xs">
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                    <!-- Daftar Kartu Produk -->
+                    <div class="lg:col-span-2 grid grid-cols-1 sm:grid-cols-2 gap-3.5" id="gridKatalogPembeli"></div>
+
+                    <!-- Keranjang Pesanan Pembeli -->
+                    <div class="glass-subcard rounded-2xl p-5 flex flex-col justify-between h-fit sticky top-36">
+                        <div>
+                            <h3 class="text-sm font-extrabold text-yellow-300 uppercase tracking-wider border-b border-yellow-500/20 pb-2.5 mb-3">
+                                <i class="fa-solid fa-basket-shopping mr-1.5"></i> Keranjang Pesanan Anda
+                            </h3>
+                            <div id="listKeranjangPembeli" class="space-y-2 text-xs text-gray-300 max-h-60 overflow-y-auto mb-4">
+                                <p class="text-gray-500 italic">Belum ada barang dipilih.</p>
+                            </div>
+                        </div>
+
+                        <div class="border-t border-yellow-500/25 pt-3 space-y-3">
+                            <div class="flex justify-between items-center font-extrabold text-white">
+                                <span class="text-xs text-gray-400">Estimasi Total:</span>
+                                <span id="totalBelanjaPembeli" class="text-lg text-yellow-400">Rp 0</span>
+                            </div>
+                            <input type="text" id="namaPemesanCheckout" placeholder="Nama Anda / Alamat Pengiriman..." class="w-full luxury-input rounded-xl px-3 py-2 text-xs">
+                            <button type="button" onclick="window.kirimPesananPembeli()" class="w-full btn-artistic-emerald py-3 rounded-xl text-xs">
+                                <i class="fa-brands fa-whatsapp mr-1.5 text-sm"></i> Kirim Pesanan ke Pedagang
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- FOOTER LUXURY -->
+    <footer class="bg-black/90 border-t border-yellow-500/25 py-4 text-center text-xs text-gray-400 backdrop-blur-md">
+        <span class="text-yellow-400 font-bold">SATHORIK</span> Black-Gold Luxury POS &amp; Warung System &copy; 2026 - Creator &bull; Pedagang &bull; Pembeli
+    </footer>
+
+    <!-- AREA STRUK TERSEMBUNYI -->
+    <div id="areaCetakStruk" class="hidden">
+        <div style="text-align: center; border-bottom: 1px dashed #000; padding-bottom: 6px; margin-bottom: 6px;">
+            <strong id="strukNamaToko" style="font-size: 15px;">SATHORIK WARUNG</strong><br>
+            <span style="font-size: 10px;">Sembako Terkecil &bull; Eceran &bull; Glosiran</span><br>
+            <span id="strukTanggal" style="font-size: 10px;"></span>
+        </div>
+        <div id="strukDaftarItem" style="border-bottom: 1px dashed #000; padding-bottom: 6px; margin-bottom: 6px;"></div>
+        <div style="display: flex; justify-content: space-between; font-weight: bold;">
+            <span>TOTAL:</span>
+            <span id="strukTotal">Rp 0</span>
+        </div>
+        <div style="display: flex; justify-content: space-between; font-size: 11px; margin-top: 2px;">
+            <span>Status:</span>
+            <span id="strukStatus">LUNAS</span>
+        </div>
+        <div style="text-align: center; margin-top: 10px; font-size: 10px;">
+            Terima kasih telah berbelanja!
+        </div>
+    </div>
+
+    <!-- SCRIPT UTAMA -->
+    <script>
+        // Global Error & Unhandled Rejection Guard
+        window.addEventListener('error', function(event) {
+            console.error('Runtime Error Guard:', event.message || event.error);
+        });
+        window.addEventListener('unhandledrejection', function(event) {
+            console.error('Promise Rejection Guard:', event.reason);
+        });
+
+        // Notifikasi visual elegan (aman di iframe / CodePen / WebView)
+        window.showToast = function(msg, type = 'info') {
+            try {
+                let toast = document.getElementById('sathorikToast');
+                if (!toast) {
+                    toast = document.createElement('div');
+                    toast.id = 'sathorikToast';
+                    toast.className = 'fixed bottom-5 right-5 z-[9999] max-w-sm px-4 py-3 rounded-2xl text-xs font-bold shadow-2xl border backdrop-blur-md transition-all duration-300';
+                    document.body.appendChild(toast);
+                }
+                const palette = {
+                    success: 'bg-emerald-950/95 text-emerald-200 border-emerald-400/60',
+                    error: 'bg-red-950/95 text-red-200 border-red-400/60',
+                    info: 'bg-zinc-950/95 text-yellow-200 border-yellow-400/60'
+                };
+                toast.className = 'fixed bottom-5 right-5 z-[9999] max-w-sm px-4 py-3 rounded-2xl text-xs font-bold shadow-2xl border backdrop-blur-md transition-all duration-300 ' + (palette[type] || palette.info);
+                toast.innerHTML = '<div class="flex items-center gap-2"><i class="fa-solid fa-circle-info text-yellow-400"></i><span>' + String(msg) + '</span></div>';
+                toast.style.opacity = '1';
+                clearTimeout(window.__sathorikToastTimer);
+                window.__sathorikToastTimer = setTimeout(() => {
+                    toast.style.opacity = '0';
+                }, 3600);
+            } catch (e) {
+                alert(msg);
+            }
+        };
+
+        // 0. SAFE STORAGE WRAPPER (Anti-error pada mode Incognito / WebView Android)
+        const memoryStorage = {};
+        function safeGetItem(key) {
+            try { return window.localStorage.getItem(key); } catch (e) { return memoryStorage[key] || null; }
+        }
+        function safeSetItem(key, val) {
+            try { window.localStorage.setItem(key, val); } catch (e) { memoryStorage[key] = val; }
+        }
+
+        // 1. DATABASE KODE AKSES
+        const defaultCodes = [
+            { kode: "PDG-8899", nama: "Warung Berkah Sathorik", role: "pedagang", masaAktif: "Unlimited Permanen" },
+            { kode: "CST-1122", nama: "Pelanggan VIP Warung", role: "pembeli", masaAktif: "Unlimited Permanen" }
+        ];
+
+        let daftarKodeAkses = [];
+        try {
+            const rawCodes = safeGetItem('sathorik_codes_v1');
+            daftarKodeAkses = rawCodes ? JSON.parse(rawCodes) : defaultCodes;
+            if (!Array.isArray(daftarKodeAkses) || daftarKodeAkses.length === 0) daftarKodeAkses = defaultCodes;
+        } catch (e) {
+            daftarKodeAkses = defaultCodes;
+        }
+        let lastGeneratedData = null;
+
+        function simpanKeStorage() {
+            safeSetItem('sathorik_codes_v1', JSON.stringify(daftarKodeAkses));
+        }
+
+        // 2. DATABASE PERLENGKAPAN ITEM WARUNG LENGKAP PER KATEGORI (SATUAN & HARGA TERKECIL)
+        const defaultProdukPasaran = [
+            // 1. SEMBAKO
+            { id: 101, nama: "Beras Ramos Super", kategori: "Sembako", satuanTerkecil: "1/4 kg (250gr)", hargaTerkecil: 4000, labaTerkecil: 600, satuanEcer: "1 kg", hargaEcer: 14500, labaEcer: 2000, satuanGrosir: "Karung 5kg", hargaGrosir: 68000, labaGrosir: 9000, stok: 40 },
+            { id: 102, nama: "Gula Pasir Putih", kategori: "Sembako", satuanTerkecil: "1/4 kg (250gr)", hargaTerkecil: 4500, labaTerkecil: 600, satuanEcer: "1 kg", hargaEcer: 17500, labaEcer: 2200, satuanGrosir: "Karung 25kg", hargaGrosir: 415000, labaGrosir: 35000, stok: 32 },
+            { id: 103, nama: "Telur Ayam Negeri", kategori: "Sembako", satuanTerkecil: "1 Butir", hargaTerkecil: 2000, labaTerkecil: 300, satuanEcer: "1 kg (±16 btr)", hargaEcer: 28000, labaEcer: 3500, satuanGrosir: "Peti 15kg", hargaGrosir: 405000, labaGrosir: 42000, stok: 60 },
+            { id: 104, nama: "Tepung Terigu Segitiga Biru", kategori: "Sembako", satuanTerkecil: "1/4 kg (250gr)", hargaTerkecil: 3500, labaTerkecil: 500, satuanEcer: "1 kg", hargaEcer: 13500, labaEcer: 2000, satuanGrosir: "Dus (12x1kg)", hargaGrosir: 148000, labaGrosir: 18000, stok: 25 },
+            { id: 105, nama: "Minyak Goreng Curah / Pouch", kategori: "Sembako", satuanTerkecil: "1 Gelas (250ml)", hargaTerkecil: 5000, labaTerkecil: 700, satuanEcer: "Pouch 1 Liter", hargaEcer: 18500, labaEcer: 2500, satuanGrosir: "Dus (12x1L)", hargaGrosir: 210000, labaGrosir: 22000, stok: 28 },
+            { id: 106, nama: "Mie Instan Indomie Goreng", kategori: "Sembako", satuanTerkecil: "1 Bungkus", hargaTerkecil: 3500, labaTerkecil: 600, satuanEcer: "Paket 3 Bks", hargaEcer: 10000, labaEcer: 1500, satuanGrosir: "1 Dus (40 Bks)", hargaGrosir: 116000, labaGrosir: 14000, stok: 80 },
+
+            // 2. MAKANAN RINGAN (SNACK)
+            { id: 201, nama: "Chitato Sapi Panggang", kategori: "Makanan Ringan (Snack)", satuanTerkecil: "1 Bungkus Kecil", hargaTerkecil: 2000, labaTerkecil: 400, satuanEcer: "1 Bungkus Besar", hargaEcer: 11000, labaEcer: 2000, satuanGrosir: "1 Renceng / Pak", hargaGrosir: 19000, labaGrosir: 3500, stok: 45 },
+            { id: 202, nama: "Taro Net Seaweed", kategori: "Makanan Ringan (Snack)", satuanTerkecil: "1 Bungkus Kecil", hargaTerkecil: 2000, labaTerkecil: 400, satuanEcer: "1 Bungkus Sedang", hargaEcer: 6000, labaEcer: 1200, satuanGrosir: "1 Renceng (10 Bks)", hargaGrosir: 18000, labaGrosir: 3000, stok: 35 },
+            { id: 203, nama: "Biskuit Roma Kelapa", kategori: "Makanan Ringan (Snack)", satuanTerkecil: "1 Bungkus Kecil", hargaTerkecil: 2000, labaTerkecil: 400, satuanEcer: "1 Bungkus Besar", hargaEcer: 11000, labaEcer: 2000, satuanGrosir: "1 Dus (12 Bks)", hargaGrosir: 118000, labaGrosir: 16000, stok: 24 },
+            { id: 204, nama: "Kacang Pilus Garuda", kategori: "Makanan Ringan (Snack)", satuanTerkecil: "1 Bungkus Kecil", hargaTerkecil: 1000, labaTerkecil: 250, satuanEcer: "1 Bungkus Sedang", hargaEcer: 5000, labaEcer: 1000, satuanGrosir: "1 Renceng (20 Bks)", hargaGrosir: 18000, labaGrosir: 3500, stok: 50 },
+            { id: 205, nama: "Wafer Tango / Nabati", kategori: "Makanan Ringan (Snack)", satuanTerkecil: "1 Bungkus Kecil", hargaTerkecil: 2000, labaTerkecil: 400, satuanEcer: "1 Kaleng / Pak", hargaEcer: 24000, labaEcer: 4000, satuanGrosir: "1 Dus (12 Pak)", hargaGrosir: 265000, labaGrosir: 35000, stok: 22 },
+            { id: 206, nama: "Permen Kopiko / Relaxa", kategori: "Makanan Ringan (Snack)", satuanTerkecil: "1 Butir", hargaTerkecil: 500, labaTerkecil: 150, satuanEcer: "1 Bungkus / Strip", hargaEcer: 6500, labaEcer: 1300, satuanGrosir: "1 Toples / Pak", hargaGrosir: 28000, labaGrosir: 5000, stok: 70 },
+
+            // 3. OBAT-OBATAN
+            { id: 301, nama: "Paramex Tablet (Sakit Kepala)", kategori: "Obat-obatan", satuanTerkecil: "1 Tablet", hargaTerkecil: 1000, labaTerkecil: 250, satuanEcer: "1 Strip (4 Tab)", hargaEcer: 3500, labaEcer: 800, satuanGrosir: "1 Box (25 Strip)", hargaGrosir: 78000, labaGrosir: 12000, stok: 50 },
+            { id: 302, nama: "Bodrex Tablet", kategori: "Obat-obatan", satuanTerkecil: "1 Tablet", hargaTerkecil: 1000, labaTerkecil: 250, satuanEcer: "1 Strip (10 Tab)", hargaEcer: 9500, labaEcer: 1800, satuanGrosir: "1 Box (20 Strip)", hargaGrosir: 175000, labaGrosir: 25000, stok: 40 },
+            { id: 303, nama: "Promag Tablet (Maag)", kategori: "Obat-obatan", satuanTerkecil: "1 Tablet", hargaTerkecil: 1000, labaTerkecil: 250, satuanEcer: "1 Strip (10 Tab)", hargaEcer: 9000, labaEcer: 1700, satuanGrosir: "1 Box (24 Strip)", hargaGrosir: 198000, labaGrosir: 28000, stok: 35 },
+            { id: 304, nama: "Tolak Angin Cair Sidomuncul", kategori: "Obat-obatan", satuanTerkecil: "1 Sachet", hargaTerkecil: 4000, labaTerkecil: 800, satuanEcer: "1 Kotak (5 Sct)", hargaEcer: 19500, labaEcer: 3500, satuanGrosir: "1 Box (12 Sachet)", hargaGrosir: 44000, labaGrosir: 7000, stok: 45 },
+            { id: 305, nama: "Minyak Kayu Putih Cap Lang", kategori: "Obat-obatan", satuanTerkecil: "1 Botol Mini (15ml)", hargaTerkecil: 7500, labaTerkecil: 1500, satuanEcer: "1 Botol (60ml)", hargaEcer: 24000, labaEcer: 4000, satuanGrosir: "1 Lusin (12 Btl)", hargaGrosir: 265000, labaGrosir: 32000, stok: 20 },
+            { id: 306, nama: "Insto Tetes Mata", kategori: "Obat-obatan", satuanTerkecil: "1 Botol Tetes", hargaTerkecil: 16500, labaTerkecil: 3000, satuanEcer: "1 Pak (2 Botol)", hargaEcer: 32000, labaEcer: 5500, satuanGrosir: "1 Lusin (12 Btl)", hargaGrosir: 182000, labaGrosir: 24000, stok: 18 },
+
+            // 4. MINUMAN
+            { id: 401, nama: "Kopi Kapal Api Special Mix", kategori: "Minuman", satuanTerkecil: "1 Sachet", hargaTerkecil: 1500, labaTerkecil: 350, satuanEcer: "1 Renceng (10 Sct)", hargaEcer: 14000, labaEcer: 2500, satuanGrosir: "1 Dus (12 Renceng)", hargaGrosir: 156000, labaGrosir: 20000, stok: 60 },
+            { id: 402, nama: "Kopi Good Day Cappuccino", kategori: "Minuman", satuanTerkecil: "1 Sachet", hargaTerkecil: 2000, labaTerkecil: 450, satuanEcer: "1 Renceng (10 Sct)", hargaEcer: 18000, labaEcer: 3000, satuanGrosir: "1 Dus (12 Renceng)", hargaGrosir: 202000, labaGrosir: 24000, stok: 45 },
+            { id: 403, nama: "Teh Celup SariWangi", kategori: "Minuman", satuanTerkecil: "1 Kantong Celup", hargaTerkecil: 500, labaTerkecil: 150, satuanEcer: "1 Kotak (25 Ktg)", hargaEcer: 7000, labaEcer: 1500, satuanGrosir: "1 Slop (6 Kotak)", hargaGrosir: 38000, labaGrosir: 6000, stok: 30 },
+            { id: 404, nama: "Susu Kental Manis Frisian Flag", kategori: "Minuman", satuanTerkecil: "1 Sachet", hargaTerkecil: 2000, labaTerkecil: 400, satuanEcer: "1 Kaleng (370gr)", hargaEcer: 12500, labaEcer: 2000, satuanGrosir: "1 Dus (48 Kaleng)", hargaGrosir: 560000, labaGrosir: 48000, stok: 35 },
+            { id: 405, nama: "Air Mineral Gelas / Botol", kategori: "Minuman", satuanTerkecil: "1 Gelas (220ml)", hargaTerkecil: 1000, labaTerkecil: 300, satuanEcer: "1 Botol (600ml)", hargaEcer: 4000, labaEcer: 1200, satuanGrosir: "1 Dus (48 Gelas)", hargaGrosir: 34000, labaGrosir: 7000, stok: 50 },
+            { id: 406, nama: "Minuman Serbuk Marimas / Nutrisari", kategori: "Minuman", satuanTerkecil: "1 Sachet", hargaTerkecil: 1000, labaTerkecil: 250, satuanEcer: "1 Renceng (10 Sct)", hargaEcer: 9000, labaEcer: 1800, satuanGrosir: "1 Pak (6 Renceng)", hargaGrosir: 49000, labaGrosir: 8000, stok: 55 },
+
+            // 5. BUMBU DAPUR
+            { id: 501, nama: "Bawang Merah", kategori: "Bumbu Dapur", satuanTerkecil: "1 Ons (100gr)", hargaTerkecil: 4000, labaTerkecil: 800, satuanEcer: "1 kg", hargaEcer: 36000, labaEcer: 5000, satuanGrosir: "Karung 10kg", hargaGrosir: 330000, labaGrosir: 35000, stok: 25 },
+            { id: 502, nama: "Bawang Putih Kating", kategori: "Bumbu Dapur", satuanTerkecil: "1 Ons (100gr)", hargaTerkecil: 4500, labaTerkecil: 850, satuanEcer: "1 kg", hargaEcer: 42000, labaEcer: 6000, satuanGrosir: "Karung 10kg", hargaGrosir: 385000, labaGrosir: 40000, stok: 22 },
+            { id: 503, nama: "Cabai Rawit Merah / Keriting", kategori: "Bumbu Dapur", satuanTerkecil: "1 Ons (100gr)", hargaTerkecil: 5500, labaTerkecil: 1000, satuanEcer: "1 kg", hargaEcer: 50000, labaEcer: 7500, satuanGrosir: "Karung 5kg", hargaGrosir: 230000, labaGrosir: 25000, stok: 18 },
+            { id: 504, nama: "Garam Dapur Beryodium", kategori: "Bumbu Dapur", satuanTerkecil: "1 Bungkus Kecil", hargaTerkecil: 1500, labaTerkecil: 350, satuanEcer: "1 Bungkus Besar", hargaEcer: 3000, labaEcer: 700, satuanGrosir: "1 Bal (40 Bks)", hargaGrosir: 88000, labaGrosir: 14000, stok: 45 },
+            { id: 505, nama: "Masako / Royco Penyedap", kategori: "Bumbu Dapur", satuanTerkecil: "1 Sachet", hargaTerkecil: 500, labaTerkecil: 150, satuanEcer: "1 Renceng (12 Sct)", hargaEcer: 5500, labaEcer: 1200, satuanGrosir: "1 Gantung (6 Renceng)", hargaGrosir: 30000, labaGrosir: 5000, stok: 65 },
+            { id: 506, nama: "Kecap Manis Sachet / Pouch", kategori: "Bumbu Dapur", satuanTerkecil: "1 Sachet", hargaTerkecil: 1000, labaTerkecil: 250, satuanEcer: "1 Pouch (210ml)", hargaEcer: 11500, labaEcer: 1800, satuanGrosir: "1 Renceng (12 Sct)", hargaGrosir: 10500, labaGrosir: 1500, stok: 40 },
+            { id: 507, nama: "Kemiri & Ketumbar Bubuk", kategori: "Bumbu Dapur", satuanTerkecil: "1 Sachet / 1 Ons", hargaTerkecil: 2000, labaTerkecil: 450, satuanEcer: "1 Pak / 1/2 kg", hargaEcer: 14000, labaEcer: 2500, satuanGrosir: "1 Bal / 5kg", hargaGrosir: 125000, labaGrosir: 18000, stok: 28 },
+
+            // 6. DAN LAINNYA
+            { id: 601, nama: "Sabun Mandi Batang", kategori: "Dan Lainnya", satuanTerkecil: "1 Batang", hargaTerkecil: 4500, labaTerkecil: 900, satuanEcer: "Paket 3 Batang", hargaEcer: 12500, labaEcer: 2200, satuanGrosir: "1 Dus (72 Batang)", hargaGrosir: 265000, labaGrosir: 35000, stok: 35 },
+            { id: 602, nama: "Deterjen Bubuk Sachet", kategori: "Dan Lainnya", satuanTerkecil: "1 Sachet", hargaTerkecil: 1000, labaTerkecil: 250, satuanEcer: "1 Renceng (6 Sct)", hargaEcer: 5500, labaEcer: 1000, satuanGrosir: "1 Bag (800gr)", hargaGrosir: 19500, labaGrosir: 3000, stok: 45 },
+            { id: 603, nama: "Shampo Sachet", kategori: "Dan Lainnya", satuanTerkecil: "1 Sachet", hargaTerkecil: 1000, labaTerkecil: 250, satuanEcer: "1 Renceng (12 Sct)", hargaEcer: 10500, labaEcer: 2000, satuanGrosir: "1 Pak (24 Renceng)", hargaGrosir: 235000, labaGrosir: 30000, stok: 50 },
+            { id: 604, nama: "Rokok Ketengan / Bungkus", kategori: "Dan Lainnya", satuanTerkecil: "1 Batang", hargaTerkecil: 2500, labaTerkecil: 350, satuanEcer: "1 Bungkus", hargaEcer: 32000, labaEcer: 2500, satuanGrosir: "1 Slop (10 Bks)", hargaGrosir: 305000, labaGrosir: 15000, stok: 30 },
+            { id: 605, nama: "Gas Elpiji 3 Kg", kategori: "Dan Lainnya", satuanTerkecil: "1 Tabung (Ecer)", hargaTerkecil: 22000, labaTerkecil: 3000, satuanEcer: "1 Tabung (Antar)", hargaEcer: 23000, labaEcer: 4000, satuanGrosir: "Partai 5 Tabung", hargaGrosir: 102500, labaGrosir: 10000, stok: 12 }
+        ];
+
+        let databaseProduk = [];
+        try {
+            const rawProd = safeGetItem('sathorik_produk_v4');
+            databaseProduk = rawProd ? JSON.parse(rawProd) : defaultProdukPasaran;
+            if (!Array.isArray(databaseProduk) || databaseProduk.length === 0) databaseProduk = defaultProdukPasaran;
+        } catch (e) {
+            databaseProduk = defaultProdukPasaran;
+        }
+
+        function simpanProdukKeStorage() {
+            safeSetItem('sathorik_produk_v4', JSON.stringify(databaseProduk));
+            const badge = document.getElementById('badgeJumlahItem');
+            if (badge) badge.innerText = databaseProduk.length;
+        }
+
+        let currentRole = null;
+        let modeWarungAktif = 'terkecil'; // Default aktif langsung ke Satuan Terkecil
+        let namaTokoAktif = 'Warung Berkah Sathorik';
+        let keranjang = [];
+        let keranjangPembeli = [];
+        let totalPenjualanVal = 850000;
+        let totalLabaVal = 175000;
+        let totalHutangVal = 150000;
+        let transaksiTerakhir = { items: [], total: 0, status: 'TUNAI (LUNAS)', waktu: '' };
+
+        // Sinkronisasi Pilihan Kategori ke Semua Dropdown
+        window.sinkronKategoriDropdown = function() {
+            const urutanPrioritas = ["Sembako", "Makanan Ringan (Snack)", "Obat-obatan", "Minuman", "Bumbu Dapur", "Dan Lainnya"];
+            const semuaKat = [...new Set(databaseProduk.map(p => p.kategori))];
+            const kategoriUnik = [
+                ...urutanPrioritas.filter(k => semuaKat.includes(k)),
+                ...semuaKat.filter(k => !urutanPrioritas.includes(k))
+            ];
+            const selectors = ['posFilterKategori', 'filterKategoriStok', 'filterKategoriPembeli'];
+            selectors.forEach(selId => {
+                const el = document.getElementById(selId);
+                if (!el) return;
+                const currentVal = el.value;
+                el.innerHTML = `<option value="SEMUA">Semua Kategori (${databaseProduk.length} Item)</option>` +
+                    kategoriUnik.map(k => `<option value="${k}">${k}</option>`).join('');
+                if (kategoriUnik.includes(currentVal)) el.value = currentVal;
+            });
+        };
+
+        // 3. NAVIGASI TERPISAH 3 BAGIAN
+        window.switchRoleView = function(targetView) {
+            if (targetView === 'creator' && currentRole !== 'creator') {
+                window.showToast('Akses Terkunci! Masukkan PIN Creator di Portal Login.', 'error');
+                targetView = 'portal';
+            }
+            if (targetView === 'pedagang' && currentRole !== 'pedagang' && currentRole !== 'creator') {
+                window.showToast('Akses Terkunci! Masukkan Kode Akses Pedagang dari Creator terlebih dahulu.', 'error');
+                targetView = 'portal';
+            }
+            if (targetView === 'pembeli' && !currentRole) {
+                window.showToast('Akses Terkunci! Masukkan Kode Akses Pembeli dari Creator terlebih dahulu.', 'error');
+                targetView = 'portal';
+            }
+
+            ['portal', 'creator', 'pedagang', 'pembeli'].forEach(v => {
+                const el = document.getElementById('view-' + v);
+                if (el) el.classList.add('hidden');
+                const nav = document.getElementById('nav-' + v);
+                if (nav) nav.className = "w-full px-3 py-2.5 rounded-xl text-xs font-semibold btn-artistic-dark transition flex items-center justify-center gap-1.5";
+            });
+
+            const activeView = document.getElementById('view-' + targetView);
+            if (activeView) activeView.classList.remove('hidden');
+
+            const activeNav = document.getElementById('nav-' + targetView);
+            if (activeNav) activeNav.className = "w-full px-3 py-2.5 rounded-xl text-xs font-bold btn-artistic-primary transition flex items-center justify-center gap-1.5 shadow-lg";
+        };
+
+        window.logoutAplikasi = function() {
+            currentRole = null;
+            document.getElementById('btnLogoutHeader').classList.add('hidden');
+            document.getElementById('badgeLisensi').innerText = "Portal 3 Role";
+            window.switchRoleView('portal');
+        };
+
+        // 4. PROSES LOGIN 3 ROLE
+        window.prosesLoginCreator = function() {
+            const pin = document.getElementById('inputPinCreator').value.trim();
+            if (pin === '123456') {
+                currentRole = 'creator';
+                document.getElementById('btnLogoutHeader').classList.remove('hidden');
+                document.getElementById('badgeLisensi').innerText = "CREATOR MASTER";
+                window.renderTabelKodeCreator();
+                window.switchRoleView('creator');
+            } else {
+                window.showToast('PIN Creator salah! Gunakan PIN standar: 123456', 'error');
+            }
+        };
+
+        window.prosesLoginPedagang = function() {
+            const kodeInput = document.getElementById('inputKodePedagang').value.trim().toUpperCase();
+            const found = daftarKodeAkses.find(item => item.kode === kodeInput && item.role === 'pedagang');
+            if (found) {
+                currentRole = 'pedagang';
+                namaTokoAktif = found.nama;
+                document.getElementById('infoNamaWarungPedagang').innerText = `${found.nama} (${found.masaAktif})`;
+                document.getElementById('badgeLisensi').innerText = found.masaAktif;
+                document.getElementById('btnLogoutHeader').classList.remove('hidden');
+                window.sinkronKategoriDropdown();
+                window.setModeWarung('terkecil');
+                window.renderTabelStokPedagang();
+                window.switchRoleView('pedagang');
+            } else {
+                window.showToast('Kode Pedagang tidak valid! Coba: PDG-8899', 'error');
+            }
+        };
+
+        window.prosesLoginPembeli = function() {
+            const kodeInput = document.getElementById('inputKodePembeli').value.trim().toUpperCase();
+            const found = daftarKodeAkses.find(item => item.kode === kodeInput && item.role === 'pembeli');
+            if (found) {
+                currentRole = 'pembeli';
+                document.getElementById('namaPemesanCheckout').value = found.nama;
+                document.getElementById('badgeLisensi').innerText = "CUSTOMER AKTIF";
+                document.getElementById('btnLogoutHeader').classList.remove('hidden');
+                window.sinkronKategoriDropdown();
+                window.renderKatalogPembeli();
+                window.switchRoleView('pembeli');
+            } else {
+                window.showToast('Kode Pembeli tidak valid! Coba: CST-1122', 'error');
+            }
+        };
+
+        // 5. FITUR CREATOR: GENERATOR KODE ACAK & TAUTAN UNDANGAN
+        window.generateKodeDanTautan = function() {
+            const nama = document.getElementById('genNamaPemesan').value.trim() || 'Pemesan Baru';
+            const role = document.getElementById('genRolePemesan').value;
+            const masaAktif = document.getElementById('genMasaAktif').value;
+
+            const prefix = role === 'pedagang' ? 'PDG' : 'CST';
+            const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+            let randomPart = '';
+            for (let i = 0; i < 6; i++) {
+                randomPart += chars.charAt(Math.floor(Math.random() * chars.length));
+            }
+            const kodeAcak = `${prefix}-${randomPart}`;
+            const baseUrl = window.location.href.split('?')[0];
+            const tautanAkses = `${baseUrl}?role=${role}&code=${kodeAcak}`;
+
+            const newRecord = { kode: kodeAcak, nama: nama, role: role, masaAktif: masaAktif };
+            daftarKodeAkses.unshift(newRecord);
+            simpanKeStorage();
+
+            lastGeneratedData = { ...newRecord, tautan: tautanAkses };
+
+            const roleLabel = role === 'pedagang' ? 'PEDAGANG (KASIR POS)' : 'PEMBELI / CUSTOMER';
+            document.getElementById('boxHasilGenerate').innerHTML = `
+                <div class="flex justify-between items-center border-b border-yellow-500/20 pb-2">
+                    <span class="text-[11px] text-gray-400">Kode Akses Acak:</span>
+                    <span class="text-base font-mono font-extrabold text-yellow-400 tracking-wider">${kodeAcak}</span>
+                </div>
+                <div class="text-xs space-y-1">
+                    <p><span class="text-gray-400">Pemesan:</span> <strong class="text-white">${nama}</strong></p>
+                    <p><span class="text-gray-400">Akses:</span> <strong class="text-emerald-400">${roleLabel}</strong> (${masaAktif})</p>
+                </div>
+                <div class="pt-1">
+                    <label class="block text-[10px] text-gray-400 mb-1">Tautan Undangan Otomatis (Auto-Login):</label>
+                    <input type="text" readonly value="${tautanAkses}" class="w-full bg-black border border-yellow-500/40 rounded-lg px-2.5 py-1.5 text-[11px] text-yellow-200 font-mono">
+                </div>
+            `;
+            window.renderTabelKodeCreator();
+        };
+
+        window.salinTautanAkses = function() {
+            if (!lastGeneratedData) return window.showToast('Generate kode acak terlebih dahulu!', 'error');
+            const pesan = 'Halo *' + lastGeneratedData.nama + '*,\nBerikut akses aplikasi *SATHORIK POS* Anda:\n\n• Peran: *' + lastGeneratedData.role.toUpperCase() + '*\n• Kode Akses: *' + lastGeneratedData.kode + '*\n• Masa Aktif: *' + lastGeneratedData.masaAktif + '*\n\nKlik tautan berikut untuk langsung masuk:\n' + lastGeneratedData.tautan;
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(pesan).then(() => alert('Pesan undangan, kode acak, dan tautan berhasil disalin!'));
+            } else {
+                alert(pesan);
+            }
+        };
+
+        window.kirimKeWhatsApp = function() {
+            if (!lastGeneratedData) return window.showToast('Generate kode acak terlebih dahulu!', 'error');
+            const pesan = 'Halo *' + lastGeneratedData.nama + '*,\nBerikut akses aplikasi *SATHORIK POS* Anda:\n\n• Peran: *' + lastGeneratedData.role.toUpperCase() + '*\n• Kode Akses: *' + lastGeneratedData.kode + '*\n• Masa Aktif: *' + lastGeneratedData.masaAktif + '*\n\nKlik tautan berikut untuk langsung masuk:\n' + lastGeneratedData.tautan;
+            window.open(`https://wa.me/?text=${encodeURIComponent(pesan)}`, '_blank');
+        };
+
+        window.renderTabelKodeCreator = function() {
+            const tbody = document.getElementById('tabelKodeCreator');
+            if (!tbody) return;
+            tbody.innerHTML = daftarKodeAkses.map((item, idx) => {
+                const badgeRole = item.role === 'pedagang'
+                    ? `<span class="bg-emerald-500/20 text-emerald-300 px-2 py-0.5 rounded-full font-bold">Pedagang</span>`
+                    : `<span class="bg-amber-500/20 text-amber-300 px-2 py-0.5 rounded-full font-bold">Pembeli</span>`;
+                return `
+                    <tr>
+                        <td class="py-3 px-3 font-mono font-bold text-yellow-400">${item.kode}</td>
+                        <td class="py-3 px-3 text-white font-semibold">${item.nama}</td>
+                        <td class="py-3 px-3">${badgeRole}</td>
+                        <td class="py-3 px-3 text-gray-300">${item.masaAktif}</td>
+                        <td class="py-3 px-3 flex gap-1.5">
+                            <button type="button" onclick="window.pilihUlangKode(${idx})" class="btn-artistic-primary px-2.5 py-1 rounded-lg text-[11px]">Ambil Link</button>
+                            <button type="button" onclick="window.hapusKodeAkses(${idx})" class="bg-red-950/70 text-red-300 px-2 py-1 rounded-lg text-[11px]"><i class="fa-solid fa-trash"></i></button>
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+        };
+
+        window.pilihUlangKode = function(idx) {
+            const item = daftarKodeAkses[idx];
+            if (!item) return;
+            const baseUrl = window.location.href.split('?')[0];
+            const tautan = `${baseUrl}?role=${item.role}&code=${item.kode}`;
+            lastGeneratedData = { ...item, tautan };
+            document.getElementById('boxHasilGenerate').innerHTML = `
+                <div class="flex justify-between items-center border-b border-yellow-500/20 pb-2">
+                    <span class="text-[11px] text-gray-400">Kode Akses Acak:</span>
+                    <span class="text-base font-mono font-extrabold text-yellow-400 tracking-wider">${item.kode}</span>
+                </div>
+                <div class="text-xs space-y-1">
+                    <p><span class="text-gray-400">Pemesan:</span> <strong class="text-white">${item.nama}</strong></p>
+                    <p><span class="text-gray-400">Akses:</span> <strong class="text-emerald-400">${item.role.toUpperCase()}</strong> (${item.masaAktif})</p>
+                </div>
+                <div class="pt-1">
+                    <input type="text" readonly value="${tautan}" class="w-full bg-black border border-yellow-500/40 rounded-lg px-2.5 py-1.5 text-[11px] text-yellow-200 font-mono">
+                </div>
+            `;
+        };
+
+        window.hapusKodeAkses = function(idx) { daftarKodeAkses.splice(idx, 1); simpanKeStorage(); window.renderTabelKodeCreator(); };
+
+        // 6. FITUR PEDAGANG (SUB-TAB, POS 3 LEVEL HARGA, KERANJANG STOK BARANG, BUKU KAS)
+        window.switchPedagangSubTab = function(sub) {
+            ['kasir', 'stok', 'kas'].forEach(s => {
+                document.getElementById('pedagang-sub-' + s).classList.add('hidden');
+                document.getElementById('subnav-' + s).className = "py-2.5 px-3 rounded-xl text-xs font-semibold btn-artistic-dark";
+            });
+            document.getElementById('pedagang-sub-' + sub).classList.remove('hidden');
+            document.getElementById('subnav-' + sub).className = "py-2.5 px-3 rounded-xl text-xs font-bold btn-artistic-primary";
+        };
+
+        window.setModeWarung = function(mode) {
+            modeWarungAktif = mode;
+            const btnTerkecil = document.getElementById('posBtnTerkecil');
+            const btnEcer = document.getElementById('posBtnEceran');
+            const btnGrosir = document.getElementById('posBtnGlosiran');
+            const label = document.getElementById('labelModeKasir');
+
+            btnTerkecil.className = "px-3 py-2 rounded-xl text-[11px] sm:text-xs btn-artistic-dark transition flex items-center justify-center";
+            btnEcer.className = "px-3 py-2 rounded-xl text-[11px] sm:text-xs btn-artistic-dark transition flex items-center justify-center";
+            btnGrosir.className = "px-3 py-2 rounded-xl text-[11px] sm:text-xs btn-artistic-dark transition flex items-center justify-center";
+
+            if (mode === 'terkecil') {
+                btnTerkecil.className = "px-3 py-2 rounded-xl text-[11px] sm:text-xs btn-artistic-primary transition flex items-center justify-center";
+                label.innerText = "Aktif: Satuan Terkecil (Ketengan / Sachet / Butir / 1/4 Kg)";
+            } else if (mode === 'eceran') {
+                btnEcer.className = "px-3 py-2 rounded-xl text-[11px] sm:text-xs btn-artistic-primary transition flex items-center justify-center";
+                label.innerText = "Aktif: Harga Warung Eceran (Normal)";
+            } else {
+                btnGrosir.className = "px-3 py-2 rounded-xl text-[11px] sm:text-xs btn-artistic-primary transition flex items-center justify-center";
+                label.innerText = "Aktif: Harga Warung Glosiran (Grosir / Dus / Karung)";
+            }
+            window.updateDropdownPOS();
+        };
+
+        window.updateDropdownPOS = function() {
+            const select = document.getElementById('posProduk');
+            const filterKat = document.getElementById('posFilterKategori')?.value || 'SEMUA';
+            if (!select) return;
+            select.innerHTML = '';
+
+            databaseProduk
+                .filter(p => filterKat === 'SEMUA' || p.kategori === filterKat)
+                .forEach(prod => {
+                    let harga = prod.hargaTerkecil || prod.hargaEcer, laba = prod.labaTerkecil || prod.labaEcer, satuan = prod.satuanTerkecil || prod.satuanEcer, tipe = 'Terkecil';
+                    if (modeWarungAktif === 'eceran') {
+                        harga = prod.hargaEcer;
+                        laba = prod.labaEcer;
+                        satuan = prod.satuanEcer;
+                        tipe = 'Ecer';
+                    } else if (modeWarungAktif === 'glosiran') {
+                        harga = prod.hargaGrosir;
+                        laba = prod.labaGrosir;
+                        satuan = prod.satuanGrosir;
+                        tipe = 'Grosir';
+                    }
+
+                    const opt = document.createElement('option');
+                    opt.value = `${prod.id}|${prod.nama} (${satuan})|${harga}|${laba}|${tipe}`;
+                    opt.text = `[${prod.kategori}] ${prod.nama} — ${satuan}: Rp ${harga.toLocaleString('id-ID')} (Stok: ${prod.stok})`;
+                    select.appendChild(opt);
+                });
+        };
+
+        window.tambahKeKeranjang = function() {
+            const select = document.getElementById('posProduk');
+            if (!select || !select.value) return window.showToast('Pilih produk terlebih dahulu!', 'error');
+            const val = select.value.split('|');
+            const idProd = parseInt(val[0]);
+            const nama = val[1];
+            const harga = parseInt(val[2]);
+            const labaPcs = parseInt(val[3]);
+            const tipe = val[4];
+            const qty = parseInt(document.getElementById('posQty').value);
+
+            if (isNaN(qty) || qty < 1) return window.showToast('Jumlah minimal 1 unit.', 'error');
+            const prod = databaseProduk.find(p => p.id === idProd);
+            if (prod && prod.stok <= 0) return alert(`Stok ${prod.nama} sedang HABIS!`);
+
+            const existing = keranjang.find(i => i.nama === nama && i.tipe === tipe);
+            if (existing) existing.qty += qty;
+            else keranjang.push({ idProd, nama, harga, labaPcs, qty, tipe });
+            window.renderKeranjang();
+        };
+
+        window.renderKeranjang = function() {
+            const container = document.getElementById('listKeranjang');
+            const totalEl = document.getElementById('totalTagihan');
+            if (keranjang.length === 0) {
+                container.innerHTML = `<p class="text-gray-500 italic text-xs">Belum ada item di keranjang.</p>`;
+                totalEl.innerText = `Rp 0`;
+                return;
+            }
+            let html = '', total = 0;
+            keranjang.forEach((item, idx) => {
+                const sub = item.harga * item.qty;
+                total += sub;
+                html += `
+                    <div class="flex justify-between items-center bg-black/60 p-2.5 rounded-xl border border-yellow-500/20">
+                        <div>
+                            <span class="text-[9px] px-1.5 py-0.5 rounded font-bold bg-yellow-500/20 text-yellow-300">${item.tipe}</span>
+                            <p class="font-semibold text-white text-xs mt-0.5">${item.nama}</p>
+                            <p class="text-[10px] text-gray-400">${item.qty} x Rp ${item.harga.toLocaleString('id-ID')}</p>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <span class="text-yellow-400 text-xs font-bold">Rp ${sub.toLocaleString('id-ID')}</span>
+                            <button type="button" onclick="window.hapusItem(${idx})" class="text-red-400 text-xs px-1.5 py-1 rounded bg-red-950/40"><i class="fa-solid fa-trash"></i></button>
+                        </div>
+                    </div>
+                `;
+            });
+            container.innerHTML = html;
+            totalEl.innerText = `Rp ${total.toLocaleString('id-ID')}`;
+        };
+
+        window.hapusItem = function(idx) { keranjang.splice(idx, 1); window.renderKeranjang(); };
+        window.kosongkanKeranjang = function() { keranjang = []; window.renderKeranjang(); };
+
+        window.prosesBayar = function(metode) {
+            if (keranjang.length === 0) return window.showToast('Keranjang masih kosong!', 'error');
+            const total = keranjang.reduce((s, i) => s + (i.harga * i.qty), 0);
+            const laba = keranjang.reduce((s, i) => s + (i.labaPcs * i.qty), 0);
+
+            keranjang.forEach(item => {
+                const prod = databaseProduk.find(p => p.id === item.idProd);
+                if (prod) prod.stok = Math.max(0, prod.stok - item.qty);
+            });
+            simpanProdukKeStorage();
+
+            const waktu = new Date().toLocaleString('id-ID');
+            transaksiTerakhir = { items: JSON.parse(JSON.stringify(keranjang)), total, status: metode === 'Tunai' ? 'TUNAI (LUNAS)' : 'HUTANG', waktu };
+
+            const log = document.getElementById('logTransaksiList');
+            if (log.innerHTML.includes('Belum ada')) log.innerHTML = '';
+            log.innerHTML = `<div class="flex justify-between bg-black/60 p-2.5 rounded-xl border border-yellow-500/20"><span>[${waktu}] ${keranjang.length} Item</span><span class="font-bold text-emerald-400">${metode}: Rp ${total.toLocaleString('id-ID')}</span></div>` + log.innerHTML;
+
+            if (metode === 'Tunai') {
+                totalPenjualanVal += total;
+                totalLabaVal += laba;
+                document.getElementById('rekapOmzet').innerText = `Rp ${totalPenjualanVal.toLocaleString('id-ID')}`;
+                document.getElementById('rekapLaba').innerText = `Rp ${totalLabaVal.toLocaleString('id-ID')}`;
+                alert(`Transaksi Tunai Berhasil! Total: Rp ${total.toLocaleString('id-ID')}`);
+            } else {
+                totalHutangVal += total;
+                document.getElementById('rekapHutang').innerText = `Rp ${totalHutangVal.toLocaleString('id-ID')}`;
+                alert(`Dicatat Sebagai Hutang: Rp ${total.toLocaleString('id-ID')}`);
+            }
+            keranjang = [];
+            window.renderKeranjang();
+            window.updateDropdownPOS();
+            window.renderTabelStokPedagang();
+        };
+
+        // RENDER TABEL KERANJANG STOK BARANG (DENGAN SATUAN TERKECIL, ECERAN, GLOSIRAN, KATEGORI)
+        window.renderTabelStokPedagang = function() {
+            const tbody = document.getElementById('tabelStokPedagang');
+            if (!tbody) return;
+            const key = (document.getElementById('cariStokPedagangInput')?.value || '').toLowerCase();
+            const kat = document.getElementById('filterKategoriStok')?.value || 'SEMUA';
+            const status = document.getElementById('filterStatusStok')?.value || 'SEMUA';
+
+            const filtered = databaseProduk.filter(p => {
+                const matchKey = p.nama.toLowerCase().includes(key) || p.kategori.toLowerCase().includes(key);
+                const matchKat = kat === 'SEMUA' || p.kategori === kat;
+                const matchStok = status === 'SEMUA' || p.stok <= 5;
+                return matchKey && matchKat && matchStok;
+            });
+
+            tbody.innerHTML = filtered.map(p => `
+                <tr>
+                    <td class="py-3 px-3">
+                        <span class="font-bold text-white block">${p.nama}</span>
+                        <span class="text-[10px] bg-yellow-500/15 text-yellow-300 px-2 py-0.5 rounded-full border border-yellow-500/25 inline-block mt-1">${p.kategori}</span>
+                    </td>
+                    <td class="py-3 px-3">
+                        <span class="text-amber-300 font-bold">Rp ${(p.hargaTerkecil || p.hargaEcer).toLocaleString('id-ID')}</span>
+                        <span class="block text-[10px] text-gray-400">/${p.satuanTerkecil || p.satuanEcer}</span>
+                    </td>
+                    <td class="py-3 px-3">
+                        <span class="text-yellow-400 font-bold">Rp ${p.hargaEcer.toLocaleString('id-ID')}</span>
+                        <span class="block text-[10px] text-gray-400">/${p.satuanEcer}</span>
+                    </td>
+                    <td class="py-3 px-3">
+                        <span class="text-emerald-400 font-bold">Rp ${p.hargaGrosir.toLocaleString('id-ID')}</span>
+                        <span class="block text-[10px] text-gray-400">/${p.satuanGrosir}</span>
+                    </td>
+                    <td class="py-3 px-3 font-bold ${p.stok <= 5 ? 'text-red-400' : 'text-emerald-400'}">${p.stok} Unit</td>
+                    <td class="py-3 px-3 flex flex-wrap gap-1">
+                        <button type="button" onclick="window.restockCepat(${p.id})" class="btn-artistic-primary px-2 py-1 rounded-lg text-[10px]" title="Tambah Stok +15">+15</button>
+                        <button type="button" onclick="window.hapusProdukStok(${p.id})" class="bg-red-950/70 text-red-300 px-2 py-1 rounded-lg text-[10px]" title="Hapus Item"><i class="fa-solid fa-trash"></i></button>
+                    </td>
+                </tr>
+            `).join('') || `<tr><td colspan="6" class="py-6 text-center text-gray-400">Barang tidak ditemukan.</td></tr>`;
+        };
+
+        window.restockCepat = function(id) {
+            const p = databaseProduk.find(x => x.id === id);
+            if (p) {
+                p.stok += 15;
+                simpanProdukKeStorage();
+                window.renderTabelStokPedagang();
+                window.updateDropdownPOS();
+            }
+        };
+
+        window.hapusProdukStok = function(id) {
+            databaseProduk = databaseProduk.filter(x => x.id !== id);
+            simpanProdukKeStorage();
+            window.sinkronKategoriDropdown();
+            window.renderTabelStokPedagang();
+            window.updateDropdownPOS();
+        };
+
+        window.toggleFormTambahProduk = function() {
+            const box = document.getElementById('formTambahProdukBox');
+            box.classList.toggle('hidden');
+            if (!box.classList.contains('hidden')) {
+                document.getElementById('newProdKategori').value = 'Dan Lainnya';
+            }
+        };
+
+        // SIMPAN BARANG/HARGA PER ITEM SECARA MANUAL KE KERANJANG STOK BARANG (DEFAULT KATEGORI: DAN LAINNYA)
+        window.simpanProdukBaru = function() {
+            const nama = document.getElementById('newProdNama').value.trim();
+            const kategori = document.getElementById('newProdKategori').value || 'Dan Lainnya';
+            const stok = parseInt(document.getElementById('newProdStok').value) || 20;
+
+            const satuanTerkecil = document.getElementById('newProdSatuanTerkecil').value.trim() || '1 Pcs Terkecil';
+            const hargaTerkecil = parseInt(document.getElementById('newProdHargaTerkecil').value) || 0;
+
+            const satuanEcer = document.getElementById('newProdSatuanEcer').value.trim() || satuanTerkecil;
+            const hargaEcerInput = parseInt(document.getElementById('newProdHargaEcer').value) || 0;
+            const hargaEcer = hargaEcerInput > 0 ? hargaEcerInput : hargaTerkecil;
+
+            const satuanGrosir = document.getElementById('newProdSatuanGrosir').value.trim() || '1 Dus/Pak';
+            const hargaGrosir = parseInt(document.getElementById('newProdHargaGrosir').value) || (hargaTerkecil * 10);
+
+            const labaTerkecil = parseInt(document.getElementById('newProdLabaEcer').value) || Math.round(hargaTerkecil * 0.15);
+
+            if (!nama || hargaTerkecil <= 0) {
+                return alert('Nama Barang dan Harga Terkecil wajib diisi dengan benar!');
+            }
+
+            const newItem = {
+                id: Date.now(),
+                nama,
+                kategori,
+                satuanTerkecil,
+                hargaTerkecil,
+                labaTerkecil,
+                satuanEcer,
+                hargaEcer,
+                labaEcer: labaTerkecil,
+                satuanGrosir,
+                hargaGrosir,
+                labaGrosir: labaTerkecil * 8,
+                stok
+            };
+
+            databaseProduk.unshift(newItem);
+            simpanProdukKeStorage();
+            window.sinkronKategoriDropdown();
+
+            // Reset form
+            document.getElementById('newProdNama').value = '';
+            document.getElementById('newProdKategori').value = 'Dan Lainnya';
+            document.getElementById('newProdSatuanTerkecil').value = '';
+            document.getElementById('newProdHargaTerkecil').value = '';
+            document.getElementById('newProdSatuanEcer').value = '';
+            document.getElementById('newProdHargaEcer').value = '';
+            document.getElementById('newProdSatuanGrosir').value = '';
+            document.getElementById('newProdHargaGrosir').value = '';
+            document.getElementById('newProdLabaEcer').value = '';
+
+            window.toggleFormTambahProduk();
+            window.renderTabelStokPedagang();
+            window.updateDropdownPOS();
+            alert(`Barang "${nama}" berhasil ditambahkan ke kategori "${kategori}" dengan satuan terkecil ${satuanTerkecil} (Rp ${hargaTerkecil.toLocaleString('id-ID')})!`);
+        };
+
+        window.cetakStrukBelanja = function() {
+            const items = keranjang.length > 0 ? keranjang : transaksiTerakhir.items;
+            if (items.length === 0) return window.showToast('Belum ada transaksi untuk dicetak!', 'error');
+            const total = keranjang.length > 0 ? keranjang.reduce((s, i) => s + (i.harga * i.qty), 0) : transaksiTerakhir.total;
+            document.getElementById('strukNamaToko').innerText = namaTokoAktif.toUpperCase();
+            document.getElementById('strukTanggal').innerText = new Date().toLocaleString('id-ID');
+            document.getElementById('strukTotal').innerText = `Rp ${total.toLocaleString('id-ID')}`;
+            document.getElementById('strukStatus').innerText = keranjang.length > 0 ? 'DRAFT NOTA' : transaksiTerakhir.status;
+            document.getElementById('strukDaftarItem').innerHTML = items.map(i => `
+                <div style="margin-bottom:4px;"><div>[${i.tipe}] ${i.nama}</div><div style="display:flex;justify-content:space-between;font-size:11px;"><span>${i.qty} x ${i.harga.toLocaleString('id-ID')}</span><span>${(i.harga*i.qty).toLocaleString('id-ID')}</span></div></div>
+            `).join('');
+            window.print();
+        };
+
+        window.scanBarcodeSimulasi = function() {
+            const select = document.getElementById('posProduk');
+            if (select && select.options.length > 0) {
+                select.selectedIndex = (select.selectedIndex + 1) % select.options.length;
+                window.showToast('Barcode terdeteksi! Produk terpilih: ' + select.options[select.selectedIndex].text.split('—')[0].trim(), 'success');
+            } else {
+                window.showToast('Kamera scan barcode siap digunakan.', 'info');
+            }
+        };
+
+        // 7. FITUR PEMBELI / CUSTOMER (KATALOG 3 LEVEL HARGA & KATEGORI)
+        window.renderKatalogPembeli = function() {
+            const grid = document.getElementById('gridKatalogPembeli');
+            const key = (document.getElementById('cariProdukPembeli')?.value || '').toLowerCase();
+            const kat = document.getElementById('filterKategoriPembeli')?.value || 'SEMUA';
+            if (!grid) return;
+
+            grid.innerHTML = databaseProduk
+                .filter(p => (kat === 'SEMUA' || p.kategori === kat) && (p.nama.toLowerCase().includes(key) || p.kategori.toLowerCase().includes(key)))
+                .map(p => `
+                    <div class="glass-subcard rounded-2xl p-4 flex flex-col justify-between space-y-3">
+                        <div>
+                            <div class="flex justify-between items-start gap-2">
+                                <div>
+                                    <span class="text-[9px] bg-yellow-500/15 text-yellow-300 px-2 py-0.5 rounded-full border border-yellow-500/25">${p.kategori}</span>
+                                    <h4 class="font-bold text-white text-sm mt-1">${p.nama}</h4>
+                                </div>
+                                <span class="text-[10px] px-2 py-0.5 rounded-full shrink-0 ${p.stok > 0 ? 'bg-emerald-500/20 text-emerald-300' : 'bg-red-500/20 text-red-300'}">${p.stok > 0 ? 'Stok: ' + p.stok : 'Habis'}</span>
+                            </div>
+                            <div class="mt-2.5 space-y-1 text-xs bg-black/50 p-2.5 rounded-xl border border-yellow-500/15">
+                                <p class="text-amber-300 font-semibold flex justify-between">
+                                    <span>Terkecil (${p.satuanTerkecil || p.satuanEcer}):</span>
+                                    <strong>Rp ${(p.hargaTerkecil || p.hargaEcer).toLocaleString('id-ID')}</strong>
+                                </p>
+                                <p class="text-yellow-400 font-semibold flex justify-between">
+                                    <span>Eceran (${p.satuanEcer}):</span>
+                                    <strong>Rp ${p.hargaEcer.toLocaleString('id-ID')}</strong>
+                                </p>
+                                <p class="text-emerald-400 font-semibold flex justify-between">
+                                    <span>Glosiran (${p.satuanGrosir}):</span>
+                                    <strong>Rp ${p.hargaGrosir.toLocaleString('id-ID')}</strong>
+                                </p>
+                            </div>
+                        </div>
+                        <div class="grid grid-cols-3 gap-1.5 pt-1">
+                            <button type="button" onclick="window.tambahKeranjangPembeli(${p.id}, 'Terkecil')" class="btn-artistic-dark py-2 rounded-xl text-[10px] text-amber-300">+ Terkecil</button>
+                            <button type="button" onclick="window.tambahKeranjangPembeli(${p.id}, 'Eceran')" class="btn-artistic-primary py-2 rounded-xl text-[10px]">+ Ecer</button>
+                            <button type="button" onclick="window.tambahKeranjangPembeli(${p.id}, 'Glosiran')" class="btn-artistic-emerald py-2 rounded-xl text-[10px]">+ Grosir</button>
+                        </div>
+                    </div>
+                `).join('');
+        };
+
+        window.tambahKeranjangPembeli = function(idProd, tipe) {
+            const p = databaseProduk.find(x => x.id === idProd);
+            if (!p || p.stok <= 0) return window.showToast('Maaf, stok barang sedang habis.', 'error');
+            let harga = p.hargaEcer, satuan = p.satuanEcer;
+            if (tipe === 'Terkecil') {
+                harga = p.hargaTerkecil || p.hargaEcer;
+                satuan = p.satuanTerkecil || p.satuanEcer;
+            } else if (tipe === 'Glosiran') {
+                harga = p.hargaGrosir;
+                satuan = p.satuanGrosir;
+            }
+            const namaItem = `${p.nama} (${satuan})`;
+
+            const exist = keranjangPembeli.find(i => i.nama === namaItem && i.tipe === tipe);
+            if (exist) exist.qty += 1;
+            else keranjangPembeli.push({ nama: namaItem, harga, tipe, qty: 1 });
+            window.renderKeranjangPembeli();
+        };
+
+        window.renderKeranjangPembeli = function() {
+            const box = document.getElementById('listKeranjangPembeli');
+            const totalEl = document.getElementById('totalBelanjaPembeli');
+            if (keranjangPembeli.length === 0) {
+                box.innerHTML = `<p class="text-gray-500 italic">Belum ada barang dipilih.</p>`;
+                totalEl.innerText = `Rp 0`;
+                return;
+            }
+            let total = 0;
+            box.innerHTML = keranjangPembeli.map((item, idx) => {
+                const sub = item.harga * item.qty;
+                total += sub;
+                return `
+                    <div class="flex justify-between items-center bg-black/60 p-2 rounded-xl border border-yellow-500/20">
+                        <div>
+                            <span class="text-[9px] font-bold text-yellow-300">[${item.tipe}]</span>
+                            <p class="text-white font-semibold">${item.nama}</p>
+                            <p class="text-[10px] text-gray-400">${item.qty} x Rp ${item.harga.toLocaleString('id-ID')}</p>
+                        </div>
+                        <button type="button" onclick="keranjangPembeli.splice(${idx},1);window.renderKeranjangPembeli();" class="text-red-400 px-1.5"><i class="fa-solid fa-trash"></i></button>
+                    </div>
+                `;
+            }).join('');
+            totalEl.innerText = `Rp ${total.toLocaleString('id-ID')}`;
+        };
+
+        window.kirimPesananPembeli = function() {
+            if (keranjangPembeli.length === 0) return window.showToast('Keranjang belanja Anda masih kosong!', 'error');
+            const pemesan = document.getElementById('namaPemesanCheckout').value.trim() || 'Pelanggan';
+            let total = 0;
+            const daftarText = keranjangPembeli.map(i => {
+                const sub = i.harga * i.qty;
+                total += sub;
+                return `- [${i.tipe}] ${i.nama} x${i.qty} = Rp ${sub.toLocaleString('id-ID')}`;
+            }).join('\n');
+
+            const pesan = 'Halo Admin *' + namaTokoAktif + '*,\nSaya *' + pemesan + '* ingin memesan barang:\n\n' + daftarText + '\n\n*Total Estimasi: Rp ' + total.toLocaleString('id-ID') + '*';
+            window.open(`https://wa.me/?text=${encodeURIComponent(pesan)}`, '_blank');
+        };
+
+        window.resetStokDefault = function() {
+            databaseProduk = JSON.parse(JSON.stringify(defaultProdukPasaran));
+            simpanProdukKeStorage();
+            window.sinkronKategoriDropdown();
+            window.renderTabelStokPedagang();
+            window.updateDropdownPOS();
+            window.renderKatalogPembeli();
+            window.showToast('Database stok dikembalikan ke katalog awal (36 item).', 'success');
+        };
+
+        // 8. TEMA WARNA & AUTO-LOGIN DARI TAUTAN UNDANGAN
+        window.toggleWarnaBox = function() { document.getElementById('warnaBox').classList.toggle('hidden'); };
+        window.changeTheme = function(hex, glow) {
+            document.documentElement.style.setProperty('--theme-primary', hex);
+            document.documentElement.style.setProperty('--theme-glow', glow);
+            document.documentElement.style.setProperty('--theme-border', hex + '55');
+        };
+
+        window.addEventListener('DOMContentLoaded', function() {
+            simpanProdukKeStorage();
+            window.sinkronKategoriDropdown();
+            const params = new URLSearchParams(window.location.search);
+            const urlRole = params.get('role');
+            const urlCode = params.get('code');
+
+            if (urlRole === 'pedagang' && urlCode) {
+                document.getElementById('inputKodePedagang').value = urlCode;
+                window.prosesLoginPedagang();
+            } else if (urlRole === 'pembeli' && urlCode) {
+                document.getElementById('inputKodePembeli').value = urlCode;
+                window.prosesLoginPembeli();
+            } else {
+                window.switchRoleView('portal');
+            }
+        });
+    </script>
+</body>
+</html>
